@@ -37,14 +37,4 @@ router.route('/:id')
     });
   });
 
-
-
-
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-
-  res.json({success:false, message:"need to login"});
-}
 module.exports = router;

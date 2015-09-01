@@ -51,7 +51,7 @@ passport.use(new InstagramStrategy({
       if(user)
         return done(err, user);
 
-      User.create({ instagramId: profile.id }, function (err, user) {
+      User.create({ instagramId: profile.id, name:profile.displayName }, function (err, user) {
         return done(err, user);
       });
     });
