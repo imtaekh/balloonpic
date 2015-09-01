@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -5,7 +7,7 @@ var logger = require('morgan');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/instaballoon_db');
+mongoose.connect(process.env.PROJECT_4_DB);
 var db = mongoose.connection;
 
 db.once("open",function () {
