@@ -1,4 +1,4 @@
-require('dotenv').load();
+var appConfig = require('./config/app_config');
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -7,7 +7,7 @@ var logger = require('morgan');
 
 var app = express();
 
-mongoose.connect(process.env.PROJECT_4_DB);
+mongoose.connect(appConfig.db);
 var db = mongoose.connection;
 
 db.once("open",function () {
@@ -26,9 +26,8 @@ var usersRouter = require('./routes/users');
 app.use('/', router);
 app.use('/users', usersRouter);
 
-var port = 3001;
-app.listen(port,function () {
-  console.log("http://127.0.0.1:"+port+"/");
+app.listen(appConfig.port,function () {
+  console.log("http://127.0.0.1:"+appConfig.port+"/");
 });
 
 function allowCrossDomain(req, res, next) {
