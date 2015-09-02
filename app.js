@@ -6,7 +6,7 @@ var mongoose  = require('mongoose');
 var bodyParser= require('body-parser');
 var logger    = require('morgan');
 var passport  = require('passport');
-var session   = require('express-session');
+var jwt       = require('jsonwebtoken');
 
 //database setting
 
@@ -29,7 +29,6 @@ app.use(allowCrossDomain);
 
 //passport middlewares
 
-app.use(session({ secret: appConfig.sessionSecret })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -60,13 +59,23 @@ app.listen(appConfig.port,function () {
 function allowCrossDomain(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', 'x-access-token');
     next();
 }
 
 function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
 
-  res.json({success:false, message:"need to login"});
+  var token = req.headers['x-access-token'];
+
+  if(token){
+    jwt.verify(token, appConfig.secret, function (err, decoded) {
+      if(err)
+        return res.json({success:false, message:"invalid token"});
+
+      req.decoded = decoded;
+      next();
+    });
+  } else {
+    return res.json({success:false, message:"token needed"});
+  }
 }
