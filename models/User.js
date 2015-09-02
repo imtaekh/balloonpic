@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 
 var UserSchema = mongoose.Schema({
   instagramId:String,
-  name:String
+  username:String
 });
 
 var User = mongoose.model("User",UserSchema);

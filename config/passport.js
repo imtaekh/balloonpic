@@ -10,11 +10,12 @@ passport.use(new InstagramStrategy({
     callbackURL: appConfig.instagramCallbackUrl
   },
   function(accessToken, refreshToken, profile, done) {
+    console.log("PROFILE : ", profile);
     User.findOne({ instagramId: profile.id }, function (err, user) {
       if(user)
         return done(err, user);
 
-      User.create({ instagramId: profile.id, name:profile.displayName }, function (err, user) {
+      User.create({ instagramId: profile.id, username:profile.username }, function (err, user) {
         return done(err, user);
       });
     });
