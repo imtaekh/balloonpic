@@ -1,15 +1,13 @@
 var appConfig = require('./config/app_config');
 
+var express   = require('express');
+var app       = express();
+var mongoose  = require('mongoose');
+var bodyParser= require('body-parser');
+var logger    = require('morgan');
+var passport  = require('passport');
+var session   = require('express-session');
 
-var express = require('express');
-var app = express();
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var passport = require('passport');
-var passport = require('passport');
-var session = require('express-session');
-var InstagramStrategy = require('passport-instagram').Strategy;
 //database setting
 
 mongoose.connect(appConfig.db);
@@ -29,10 +27,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(allowCrossDomain);
 
+//passport middlewares
+
 app.use(session({ secret: appConfig.sessionSecret })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
 
+require('./config/passport');
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -40,23 +41,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-var User = require('./models/User');
-passport.use(new InstagramStrategy({
-    clientID: appConfig.INSTAGRAM_CLIENT_ID,
-    clientSecret: appConfig.INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://localhost:3001/auth/instagram/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ instagramId: profile.id }, function (err, user) {
-      if(user)
-        return done(err, user);
 
-      User.create({ instagramId: profile.id, name:profile.displayName }, function (err, user) {
-        return done(err, user);
-      });
-    });
-  }
-));
 //routing setting
 
 var router = require('./routes/index');
@@ -73,8 +58,8 @@ app.listen(appConfig.port,function () {
 // functions
 
 function allowCrossDomain(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-    res.header('Access-Control-Allow-Methods', 'PATCH,DELETE');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 }
