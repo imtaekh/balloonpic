@@ -30,7 +30,6 @@ app.use(allowCrossDomain);
 //passport middlewares
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 require('./config/passport');
 passport.serializeUser(function(user, done) {
@@ -40,6 +39,8 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
+
+app.use(express.static(__dirname+"/public"));
 
 //routing setting
 
