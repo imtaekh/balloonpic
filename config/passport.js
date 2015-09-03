@@ -3,7 +3,7 @@ var appConfig = require('./app_config');
 var passport = require('passport');
 var InstagramStrategy = require('passport-instagram').Strategy;
 var User = require('../models/User');
-
+console.log(appConfig.instagramCallbackUrl);
 passport.use(new InstagramStrategy({
     clientID: appConfig.INSTAGRAM_CLIENT_ID,
     clientSecret: appConfig.INSTAGRAM_CLIENT_SECRET,
@@ -12,12 +12,15 @@ passport.use(new InstagramStrategy({
   function(accessToken, refreshToken, profile, done) {
     console.log("PROFILE : ", profile);
     User.findOne({ instagramId: profile.id }, function (err, user) {
-      if(user)
-        return done(err, user);
-
-      User.create({ instagramId: profile.id, username:profile.username }, function (err, user) {
-        return done(err, user);
-      });
+      if(user){
+        User.update({ instagramId: profile.id},{$set:{accessToken:accessToken}},function (err,user) {
+          return done(err, user);
+        });
+      } else {
+        User.create({ instagramId: profile.id, username:profile.username,accessToken:accessToken }, function (err, user) {
+          return done(err, user);
+        });
+      }
     });
   }
 ));
