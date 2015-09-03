@@ -2,7 +2,7 @@
   "name": "tv_shows",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +17,8 @@
     "morgan": "^1.6.1",
     "passport": "^0.3.0",
     "passport-instagram": "^1.0.0"
+  },
+  "engines": {
+    "node": "0.12.4"
   }
 }
