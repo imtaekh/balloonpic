@@ -21,9 +21,9 @@ router.get('/auth/instagram/callback',
   function(req, res) {
     var token = jwt.sign({
       id: req.user._id,
-      instagramId: req.user.instagramId,
-      username: req.user.username,
-      accessToken: req.user.accessToken
+      instagramId:req.user.instagramId,
+      username:req.user.username,
+      accessToken:req.user.accessToken
     }, appConfig.secret,  {
       expiresInMinutes: 1440 // expires in 24 hours
     });
