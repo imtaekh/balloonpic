@@ -20,7 +20,10 @@ router.get('/auth/instagram/callback',
   passport.authenticate('instagram', { failureRedirect: '/loginFailed' }),
   function(req, res) {
     var token = jwt.sign({
-      id: req.user._id
+      id: req.user._id,
+      instagramId: req.user.instagramId,
+      username: req.user.username,
+      accessToken: req.user.accessToken
     }, appConfig.secret,  {
       expiresInMinutes: 1440 // expires in 24 hours
     });
