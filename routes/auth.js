@@ -11,7 +11,6 @@ router.get('/instagram',
 router.get('/instagram/callback',
   passport.authenticate('instagram', { failureRedirect: '/' }),
   function(req, res) {
-    console.log(" REQ.USER :", req.user);
     var token = jwt.sign({
       id: req.user._id,
       instagramId:req.user.instagramId,
@@ -21,8 +20,8 @@ router.get('/instagram/callback',
       expiresInMinutes: 1440
     });
 
-    res.redirect("/app/#/?token="+token);
-res.end();
+    res.cookie("token",token);
+    res.redirect("/app");
   });
 
 module.exports = router;

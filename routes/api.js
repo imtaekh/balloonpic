@@ -3,8 +3,7 @@ var router = express.Router();
 
 router.route('/me')
   .get(function (req, res) {
-    console.log(req.decoded);
-    res.json(req.decoded);
+    res.json({success:true, data:req.decoded});
   });
 
 module.exports = router;

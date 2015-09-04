@@ -3,19 +3,18 @@
   angular.module("AppController",[])
     .controller("AppController",AppController);
 
-  AppController.$inject=["$rootScope", "AppService"];
+  AppController.$inject=["$rootScope", "Auth"];
 
-  function AppController($rootScope, AppService){
+  function AppController($rootScope, Auth){
+    console.log(Auth);
+    var vm = this;
+    vm.isLoggedIn = Auth.isLoggedIn();
+
     $rootScope.$on('$routeChangeStart',function () {
-      AppService.checkToken();
+      vm.isLoggedIn = Auth.isLoggedIn();
     });
 
-    AppService.checkToken();
-
-
-
-    var vm = this;
-
+    console.log("vm.isLoggedIn :", vm.isLoggedIn);
 
   }
 }());
