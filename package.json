@@ -20,5 +20,10 @@
   },
   "engines": {
     "node": "0.12.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-sass": "^2.0.4"
   }
 }
