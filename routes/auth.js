@@ -20,8 +20,8 @@ router.get('/instagram/callback',
       expiresInMinutes: 1440
     });
 
-    res.cookie("token",token);
-    res.redirect("/app");
+    res.redirect("/app/#/?token="+token);
+res.end();
   });
 
 module.exports = router;
