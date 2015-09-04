@@ -13,7 +13,7 @@
       if(token){
         console.log("if ", token);
       } else {
-        $window.location.href = '/'
+        $window.location.href = '/';
       }
     };
 
