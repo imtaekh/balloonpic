@@ -5,19 +5,11 @@ var passport= require('passport');
 var jwt     = require('jsonwebtoken');
 var router  = express.Router();
 
-router.get('/',function (req, res) {
-  res.send("hi");
-});
-
-router.get('/loginFailed',function (req, res) {
-  res.json({success:false, message:"login failed"});
-});
-
-router.get('/auth/instagram',
+router.get('/instagram',
   passport.authenticate('instagram'));
 
-router.get('/auth/instagram/callback',
-  passport.authenticate('instagram', { failureRedirect: '/loginFailed' }),
+router.get('/instagram/callback',
+  passport.authenticate('instagram', { failureRedirect: '/' }),
   function(req, res) {
     var token = jwt.sign({
       id: req.user._id,
@@ -25,10 +17,11 @@ router.get('/auth/instagram/callback',
       username:req.user.username,
       accessToken:req.user.accessToken
     }, appConfig.secret,  {
-      expiresInMinutes: 1440 // expires in 24 hours
+      expiresInMinutes: 1440
     });
 
-    res.json({success:true, token:token});
+    res.cookie("token",token);
+    res.redirect("/app");
   });
 
 module.exports = router;

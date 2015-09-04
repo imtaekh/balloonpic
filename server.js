@@ -1,12 +1,13 @@
 var appConfig = require('./config/app_config');
 
-var express   = require('express');
-var app       = express();
-var mongoose  = require('mongoose');
-var bodyParser= require('body-parser');
-var logger    = require('morgan');
-var passport  = require('passport');
-var jwt       = require('jsonwebtoken');
+var express     = require('express');
+var app         = express();
+var mongoose    = require('mongoose');
+var bodyParser  = require('body-parser');
+var cookieParser= require('cookie-parser');
+var logger      = require('morgan');
+var passport    = require('passport');
+var jwt         = require('jsonwebtoken');
 
 //database setting
 
@@ -25,6 +26,7 @@ db.on('error',function (err) {
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(allowCrossDomain);
 
 //passport middlewares
@@ -44,9 +46,17 @@ app.use(express.static(__dirname+"/public"));
 
 //routing setting
 
-var router = require('./routes/index');
+var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
-app.use('/', router);
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname+"/public/login.html");
+});
+app.get('/app', function (req, res) {
+  res.sendFile(__dirname+"/public/app.html");
+});
+
+app.use('/auth', authRouter);
 app.use('/users', isLoggedIn, usersRouter);
 
 //server start
