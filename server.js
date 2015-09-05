@@ -4,7 +4,6 @@ var express     = require('express');
 var app         = express();
 var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
-var cookieParser= require('cookie-parser');
 var logger      = require('morgan');
 var passport    = require('passport');
 var jwt         = require('jsonwebtoken');
@@ -26,7 +25,6 @@ db.on('error',function (err) {
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(allowCrossDomain);
 
 //passport middlewares
