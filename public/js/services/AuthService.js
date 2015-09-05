@@ -5,19 +5,15 @@
     .factory('AuthToken', AuthToken)
     .factory('AuthInterceptor', AuthInterceptor);
 
-  Auth.$inject=['$cookies', '$window', '$http', '$q', '$location', 'AuthToken'];
+  Auth.$inject=['$window', '$http', '$q', '$location', 'AuthToken'];
 
-  function Auth($cookies, $window, $http, $q, $location, AuthToken) {
+  function Auth( $window, $http, $q, $location, AuthToken) {
     var authFactory={};
     authFactory.logout = function () {
       AuthToken.setToken();
     };
     authFactory.isLoggedIn = function(){
       if(AuthToken.getToken()){
-        return true;
-      } else if($cookies.get("token")){
-        AuthToken.setToken($cookies.get("token"));
-        $cookies.remove("token");
         return true;
       } else {
         $window.location.href = '/';
@@ -32,18 +28,18 @@
     return authFactory;
   }
 
-  AuthToken.$inject=['$window'];
+  AuthToken.$inject=['$cookies'];
 
-  function AuthToken($window) {
+  function AuthToken($cookies) {
     var authTokenFactory = {};
     authTokenFactory.getToken = function(){
-      return $window.localStorage.getItem('token');
+      return $cookies.get('token');
     };
     authTokenFactory.setToken = function (token) {
       if(token)
-        $window.localStorage.setItem('token', token);
+        $cookies.put('token', token);
       else
-        $window.localStorage.removeItem('token');
+        $cookies.remove('token');
     };
     return authTokenFactory;
   }
