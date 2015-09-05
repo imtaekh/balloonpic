@@ -6,12 +6,23 @@
   AppController.$inject=["$rootScope", "$window", "Auth"];
 
   function AppController($rootScope, $window, Auth){
-    console.log(Auth);
     var vm = this;
-    vm.isLoggedIn = Auth.isLoggedIn();
 
     $rootScope.$on('$routeChangeStart',function () {
-      vm.isLoggedIn = Auth.isLoggedIn();
+
+      Auth.getUser()
+      .then(function (data) {
+
+        if(data.data.success){
+          vm.user = data.data.data;
+        }
+        else{
+          delete vm.user;
+        }
+        vm.isLoggedIn=vm.user?true:false;
+        console.log("USER : ", vm.user);
+      });
+
     });
 
     vm.login = function () {
@@ -22,7 +33,6 @@
       Auth.logout();
     };
 
-    console.log("vm.isLoggedIn :", vm.isLoggedIn);
 
   }
 }());
