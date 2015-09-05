@@ -61,6 +61,10 @@ app.use('/auth', authRouter);
 app.use('/users', isLoggedIn, usersRouter);
 app.use('/api', isLoggedIn, apiRouter);
 
+app.get('*', function (req, res) {
+  res.redirect('/');
+});
+
 //server start
 
 app.listen(appConfig.port,function () {
