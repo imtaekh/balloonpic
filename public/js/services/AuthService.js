@@ -11,12 +11,13 @@
     var authFactory={};
     authFactory.logout = function () {
       AuthToken.setToken();
+      $window.location.href='/';
     };
     authFactory.isLoggedIn = function(){
       if(AuthToken.getToken()){
         return true;
       } else {
-        $window.location.href = '/';
+        return false;
       }
     };
     authFactory.getUser = function () {

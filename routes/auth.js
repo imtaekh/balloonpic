@@ -21,7 +21,7 @@ router.get('/instagram/callback',
     });
 
     res.cookie("token",token);
-    res.redirect("/app");
+    res.redirect("/");
   });
 
 module.exports = router;

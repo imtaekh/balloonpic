@@ -48,13 +48,6 @@ var authRouter = require('./routes/auth');
 var usersRouter= require('./routes/users');
 var apiRouter = require('./routes/api');
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname+"/public/login.html");
-});
-app.get('/app', function (req, res) {
-  res.sendFile(__dirname+"/public/app.html");
-});
-
 app.use('/auth', authRouter);
 app.use('/users', isLoggedIn, usersRouter);
 app.use('/api', isLoggedIn, apiRouter);
