@@ -8,6 +8,8 @@
 		$routeProvider
 			.when('/', {
 				templateUrl : 'views/welcome.html',
+				controller : 'AppController',
+				controllerAs : 'appCtrl',
 				requireLogin :false
 			})
 			.when('/app', {
@@ -17,5 +19,5 @@
 			.otherwise('/');
 		$locationProvider.html5Mode(true);
 	}
-	
+
 }());

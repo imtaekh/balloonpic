@@ -8,7 +8,7 @@
   function AppController($rootScope, $window, Auth){
     var vm = this;
 
-    $rootScope.$on('$routeChangeStart',function () {
+    vm.initialize = function () {
       Auth.getUser()
       .then(function (data) {
         if(data.data.success){
@@ -20,8 +20,9 @@
         vm.isLoggedIn=vm.user?true:false;
         console.log("USER : ", vm.user);
       });
-
-    });
+    };
+    vm.initialize();
+    $rootScope.$on('$routeChangeStart',vm.initialize);
 
     vm.login = function () {
       $window.location.href = "/auth/instagram";

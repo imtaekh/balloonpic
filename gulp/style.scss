@@ -1,3 +1,24 @@
 .navbar{
   border-radius: 0;
+  margin-bottom: 0;
+}
+.btn-login{
+  width: 100px;
+}
+.welcome_1st{
+  position: relative;
+  background: url("/images/welcome_bg_001.jpg") center center no-repeat;
+  background-size: cover;
+  height: 500px;
+  text-align: center;
+  h1{
+    font-size: 5em;
+    color: white;
+  }
+}
+.divCenter{
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
 }

@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <title>iBalloon</title>
   </head>
-  <body ng-controller="AppController as appCtrl">
-    <nav class="navbar navbar-default">
+  <body>
+    <nav class="navbar navbar-default" ng-controller="AppController as appCtrl">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" ng-click="appCtrl.menuClick()">
@@ -23,7 +23,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">iBalloon</a>
+          <a class="navbar-brand" href="/#/app">iBalloon</a>
         </div>
 
         <div ng-class="appCtrl.menuStyle">
@@ -42,9 +42,6 @@
         </div>
       </div>
     </nav>
-    {{appCtrl.test}}
-
-
     <div ng-view></div>
   </body>
 </html>
