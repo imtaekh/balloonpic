@@ -34,6 +34,7 @@ gulp.task('concat',function () {
     ,'./gulp/js/services/AuthService.js'
     ,'./gulp/js/app.routes.js'
     ,'./gulp/js/app.js'
+    ,'./gulp/js/javascript.js'
   ]).pipe(concat('application.js'))
     .pipe(minify())
     .pipe(gulp.dest('./public/js'));

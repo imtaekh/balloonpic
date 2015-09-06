@@ -29,9 +29,16 @@
     vm.logout = function () {
       console.log("logout");
       Auth.logout();
-      delete vm.user
+      delete vm.user;
     };
-
+    vm.menuStyle = "collapse navbar-collapse";
+    vm.menuClick = function () {
+      if(vm.menuStyle == "navbar-collapse"){
+        vm.menuStyle = "collapse navbar-collapse";
+      } else {
+        vm.menuStyle = "navbar-collapse";
+      }
+    };
 
   }
 }());

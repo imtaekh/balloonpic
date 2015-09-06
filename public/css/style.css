@@ -1,4 +1,7 @@
-body {
-  background-color: yellow; }
-  body h1 {
-    color: blue; }
+.navbar {
+  border-radius: 0; }
+
+.welcome_1st {
+  background: url("/images/welcome_bg_001.jpg") center;
+  background-size: cover;
+  height: 300px; }
