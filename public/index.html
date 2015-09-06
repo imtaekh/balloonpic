@@ -24,14 +24,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" ng-if="!appCtrl.user">iBalloon</a>
-          <a class="navbar-brand" ng-if="appCtrl.user" href="/#/app">iBalloon</a>
+          <a class="navbar-brand" href="/#/">iBalloon</a>
         </div>
 
         <div ng-class="appCtrl.menuStyle">
           <ul class="nav navbar-nav">
-            <li><a href="#">About</a></li>
-            <li ng-if="appCtrl.user"><a href="#">Post</a></li>
+            <li ng-if="appCtrl.user"><a href="/#/app">Map</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-if="appCtrl.user" ng-click="appCtrl.logout()">
@@ -44,6 +42,6 @@
         </div>
       </div>
     </nav>
-    <div ng-view style="min-height: 100%"></div>
+    <div ng-view></div>
   </body>
 </html>

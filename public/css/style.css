@@ -35,3 +35,8 @@ html, body {
 .welcome_about {
   position: relative;
   height: 200px; }
+
+.map_right {
+  position: absolute;
+  left: 320px;
+  right: 0; }
