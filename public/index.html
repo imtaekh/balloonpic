@@ -15,10 +15,10 @@
   </head>
   <body ng-controller="AppController as appCtrl">
     {{appCtrl.test}}
-    <button ng-if="appCtrl.isLoggedIn" ng-click="appCtrl.logout()">
+    <button ng-if="appCtrl.user" ng-click="appCtrl.logout()">
       Logout
     </button>
-    <button ng-if="!appCtrl.isLoggedIn" ng-click="appCtrl.login()">
+    <button ng-if="!appCtrl.user" ng-click="appCtrl.login()">
       Login
     </button>
 

@@ -9,10 +9,8 @@
     var vm = this;
 
     $rootScope.$on('$routeChangeStart',function () {
-
       Auth.getUser()
       .then(function (data) {
-
         if(data.data.success){
           vm.user = data.data.data;
         }
@@ -31,6 +29,7 @@
     vm.logout = function () {
       console.log("logout");
       Auth.logout();
+      delete vm.user
     };
 
 

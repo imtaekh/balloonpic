@@ -5,13 +5,13 @@
     .factory('AuthToken', AuthToken)
     .factory('AuthInterceptor', AuthInterceptor);
 
-  Auth.$inject=['$window', '$http', '$q', '$location', 'AuthToken'];
+  Auth.$inject=['$http', '$q', '$location', 'AuthToken'];
 
-  function Auth( $window, $http, $q, $location, AuthToken) {
+  function Auth($http, $q, $location, AuthToken) {
     var authFactory={};
     authFactory.logout = function () {
       AuthToken.setToken();
-      $window.location.href='/';
+      $location.path('/');
     };
     authFactory.isLoggedIn = function(){
       if(AuthToken.getToken()){
@@ -45,9 +45,9 @@
     return authTokenFactory;
   }
 
-  AuthInterceptor.$inject=['$q', '$window', '$location', 'AuthToken'];
+  AuthInterceptor.$inject=['$q', '$location', 'AuthToken'];
 
-  function AuthInterceptor($q, $window, $location, AuthToken) {
+  function AuthInterceptor($q, $location, AuthToken) {
     var authInterceptorFactory={};
     authInterceptorFactory.request = function (config) {
       var token = AuthToken.getToken();
@@ -59,7 +59,7 @@
     authInterceptorFactory.responseError = function (response) {
       if(response.status == 403){
         AuthToken.setToken();
-        $window.location.href = '/';
+        $location.path('/');
       }
       return $q.reject(response);
     };
