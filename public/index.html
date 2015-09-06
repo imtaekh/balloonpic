@@ -6,6 +6,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-cookies.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js"></script>
+    <script src="//maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
     <script src="/js/application.js"></script>
 
 
@@ -23,7 +24,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/#/app">iBalloon</a>
+          <a class="navbar-brand" ng-if="!appCtrl.user">iBalloon</a>
+          <a class="navbar-brand" ng-if="appCtrl.user" href="/#/app">iBalloon</a>
         </div>
 
         <div ng-class="appCtrl.menuStyle">

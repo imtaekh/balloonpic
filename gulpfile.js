@@ -29,12 +29,10 @@ gulp.task('start',function () {
 
 gulp.task('concat',function () {
   gulp.src([
-    './gulp/js/controllers/AppController.js'
-    ,'./gulp/js/services/AppService.js'
-    ,'./gulp/js/services/AuthService.js'
+    './gulp/js/controllers/*.js'
+    ,'./gulp/js/services/*.js'
     ,'./gulp/js/app.routes.js'
     ,'./gulp/js/app.js'
-    ,'./gulp/js/javascript.js'
   ]).pipe(concat('application.js'))
     .pipe(minify())
     .pipe(gulp.dest('./public/js'));

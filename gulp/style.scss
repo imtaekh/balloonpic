@@ -16,9 +16,20 @@
     color: white;
   }
 }
+.welcome_padding{
+  height: 100px;
+  background-color: #155A7F;
+}
+.welcome_about{
+  position: relative;
+  height: 200px;
+}
 .divCenter{
   position: absolute;
   left:50%;
   top:50%;
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }

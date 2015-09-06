@@ -3,7 +3,18 @@
 
     <h1>iBalloon</h1>
     <p ng-if="!appCtrl.user" ng-click="appCtrl.login()" class="btn btn-primary btn-login">
-    Login
+      Login
     </p>
+    <a ng-if="appCtrl.user" href="/#/app" class="btn btn-primary">
+      iBalloon Map
+    </a>
+  </div>
+</div>
+<div class="welcome_padding">
+
+</div>
+<div class="welcome_about">
+  <div class="divCenter">
+    <h1>About iBalloon</h1>
   </div>
 </div>

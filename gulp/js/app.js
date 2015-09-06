@@ -14,15 +14,15 @@
     $httpProvider.interceptors.push('AuthInterceptor');
   }
 
-  appRun.$inject=['$rootScope', '$route', '$location', 'Auth'];
-  function appRun ($rootScope, $route, $location, Auth){
+  appRun.$inject=['$rootScope', '$route', '$window', 'Auth'];
+  function appRun ($rootScope, $route, $window, Auth){
     $rootScope.$on("$locationChangeStart", function(event, next, current) {
       for(var i in $route.routes) {
         if(next.indexOf(i) != -1) {
           if($route.routes[i].requireLogin && !Auth.isLoggedIn()) {
             alert("Please login first :D");
             event.preventDefault();
-            $location.path('/');
+            $window.location.href='/';
           }
         }
       }
