@@ -1,7 +1,7 @@
 var gulp = require('gulp');
-// var minify = require('gulp-uglify'); //minify
 var sass = require('gulp-sass'); // sass
-// var concat = require('gulp-concat');
+var concat = require('gulp-concat');
+var minify = require('gulp-uglify'); //minify
 var nodemon = require('gulp-nodemon');
 // var jshint = require('gulp-jshint');
 
@@ -17,7 +17,7 @@ gulp.task('start',function () {
     ext: "js html ejs scss",
     env: {'NODE_ENV':"development"},
     // tasks: ['jshint','concat','sass']
-    tasks: ['sass']
+    tasks: ['concat','sass']
   });
 });
 
@@ -27,12 +27,17 @@ gulp.task('start',function () {
 //   .pipe(gulp.dest('public/js'));
 // });
 
-// gulp.task('concat',function () {
-//   gulp.src(['./gulp/first.js','./gulp/second.js'])
-//   .pipe(concat('application.js'))
-//   .pipe(minify())
-//   .pipe(gulp.dest('./public/js'));
-// });
+gulp.task('concat',function () {
+  gulp.src([
+    './gulp/js/controllers/AppController.js'
+    ,'./gulp/js/services/AppService.js'
+    ,'./gulp/js/services/AuthService.js'
+    ,'./gulp/js/app.routes.js'
+    ,'./gulp/js/app.js'
+  ]).pipe(concat('application.js'))
+    .pipe(minify())
+    .pipe(gulp.dest('./public/js'));
+});
 
 gulp.task('sass', function () {
   gulp.src('./gulp/*.scss')
@@ -46,4 +51,4 @@ gulp.task('sass', function () {
 // });
 
 // gulp.task('default',['jshint','concat','sass','start']);
-gulp.task('default',['sass','start']);
+gulp.task('default',['sass','concat','start']);
