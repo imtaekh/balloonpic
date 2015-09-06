@@ -1,9 +1,22 @@
+html, body{
+  position: relative;
+  height: 100%;
+}
 .navbar{
   border-radius: 0;
   margin-bottom: 0;
 }
 .btn-login{
   width: 100px;
+}
+.divCenter{
+  position: absolute;
+  left:50%;
+  top:50%;
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 .welcome_1st{
   position: relative;
@@ -23,13 +36,4 @@
 .welcome_about{
   position: relative;
   height: 200px;
-}
-.divCenter{
-  position: absolute;
-  left:50%;
-  top:50%;
-  -moz-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
 }

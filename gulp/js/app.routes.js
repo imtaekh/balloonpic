@@ -8,13 +8,15 @@
 		$routeProvider
 			.when('/', {
 				templateUrl : 'views/welcome.html',
-				controller : 'AppController',
-				controllerAs : 'appCtrl',
-				requireLogin :false
+				controller	: 'AppController',
+				controllerAs: 'appCtrl',
+				requireLogin: false
 			})
 			.when('/app', {
 				templateUrl : 'views/app.html',
-				requireLogin :true
+				controller 	: 'MapController',
+				controllerAs: 'mapCtrl',
+				requireLogin: true
 			})
 			.otherwise('/');
 		$locationProvider.html5Mode(true);

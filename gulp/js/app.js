@@ -4,6 +4,7 @@
     "app.routes",
     "ngCookies",
     "AppController",
+    "MapController",
     "AppService",
     "AuthService"
   ]).config(appConfig)
