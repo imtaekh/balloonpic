@@ -6,7 +6,8 @@
     "AppController",
     "MapController",
     "AppService",
-    "AuthService"
+    "AuthService",
+    "MapDirectives"
   ]).config(appConfig)
     .run(appRun);
 

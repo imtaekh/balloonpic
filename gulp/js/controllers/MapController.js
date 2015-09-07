@@ -8,6 +8,10 @@
   function MapController($rootScope, $window, Auth){
     var vm = this;
 
+    // vm.test="MapController";
+
+    vm.leftPanel="";
+
     vm.markerData={
       lat:34.052,
       lng:-118.243,
@@ -15,7 +19,7 @@
     };
 
     var centerLatLng = {lat:34.05223,lng:-118.24368};
-    document.getElementById('map').style.height=window.innerHeight-50+"px";
+    document.getElementById('map').style.height=window.innerHeight-70+"px";
     var mapInit = function () {
       var mapOptions = {
                     zoom: 15,
@@ -34,11 +38,27 @@
                                   null, /* anchor is bottom center of the scaled image */
                                   new google.maps.Size(70, 70)
                                 )
-                      })
+                      });
       vm.marker.setMap(vm.map);
       google.maps.event.addListener(vm.marker, 'click', function(){
-                      console.log("clicked");
-                  });
+                  if(vm.leftPanel=="igShow"){
+                    console.log("if");
+                    vm.leftPanel="";
+                    // vm.igShowClass="hidden";
+                    document.querySelector('#map').className="map_inactive";
+                    document.querySelector('#side').className="side_inactive";
+                  } else if(vm.leftPanel=="igPost"){
+                    console.log("else if");
+                    vm.igShowClass="";
+                    // vm.igPostClass="hidden";
+                  } else {
+                    console.log("else");
+                    vm.leftPanel="igShow";
+                    document.querySelector('ig-show').className="";
+                    document.querySelector('#map').className="map_active";
+                    document.querySelector('#side').className="side_active";
+                  }
+                });
       setInterval( function(){
         vm.markerData.lat-=0.00001;
         vm.markerData.lng-=0.00001;

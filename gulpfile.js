@@ -31,6 +31,7 @@ gulp.task('concat',function () {
   gulp.src([
     './gulp/js/controllers/*.js'
     ,'./gulp/js/services/*.js'
+    ,'./gulp/js/directives/*.js'
     ,'./gulp/js/app.routes.js'
     ,'./gulp/js/app.js'
   ]).pipe(concat('application.js'))

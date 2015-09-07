@@ -36,7 +36,34 @@ html, body {
   position: relative;
   height: 200px; }
 
-.map_right {
+.map_left_tmp {
+  width: 320px; }
+
+.submenu {
+  height: 20px; }
+
+.map_inactive {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition: left, 1s; }
+
+.map_active {
   position: absolute;
   left: 320px;
-  right: 0; }
+  right: 0;
+  transition: left, 1s; }
+
+.side_inactive {
+  position: absolute;
+  left: 0;
+  width: 0;
+  overflow: hidden;
+  transition: width, 1s; }
+
+.side_active {
+  position: absolute;
+  left: 0;
+  width: 320px;
+  overflow: hidden;
+  transition: width, 1s; }
