@@ -43,6 +43,7 @@ html, body {
   text-align: center;
   height: 20px; }
   .submenuDiv .submenu {
+    cursor: pointer;
     display: inline-block;
     padding: 0 20px;
     height: 20px; }
