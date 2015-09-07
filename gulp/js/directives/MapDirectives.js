@@ -3,7 +3,7 @@
 
   angular.module("MapDirectives",[])
     .directive("igShow",igShow)
-    .directive("igPost",igPost);
+    .directive("igNew",igNew);
 
     function igShow() {
       return {
@@ -11,7 +11,7 @@
         templateUrl: 'directives/ig_show.html'
       };
     }
-    function igPost() {
+    function igNew() {
       return {
         restrict: 'E',
         templateUrl: 'directives/ig_post.html'

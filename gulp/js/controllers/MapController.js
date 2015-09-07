@@ -12,6 +12,41 @@
 
     vm.leftPanel="";
 
+    vm.igShow = function(){
+      if(vm.leftPanel=="igShow"){
+        vm.leftPanel="";
+        document.querySelector('#map').className="map_inactive";
+        document.querySelector('#side').className="side_inactive";
+      } else if(vm.leftPanel=="igNew"){
+        vm.leftPanel="igShow";
+        document.querySelector('ig-show').className="";
+        document.querySelector('ig-new').className="hidden";
+      } else {
+        vm.leftPanel="igShow";
+        document.querySelector('ig-show').className="";
+        document.querySelector('#map').className="map_active";
+        document.querySelector('#side').className="side_active";
+      }
+    };
+
+    vm.igNew = function(){
+      if(vm.leftPanel=="igShow"){
+        vm.leftPanel="igNew";
+      document.querySelector('ig-show').className="hidden";
+      document.querySelector('ig-new').className="";
+      } else if(vm.leftPanel=="igNew"){
+        vm.igShowClass="";
+        document.querySelector('#map').className="map_inactive";
+        document.querySelector('#side').className="side_inactive";
+      } else {
+        console.log("else");
+        vm.leftPanel="igNew";
+        document.querySelector('ig-new').className="";
+        document.querySelector('#map').className="map_active";
+        document.querySelector('#side').className="side_active";
+      }
+    };
+
     vm.markerData={
       lat:34.052,
       lng:-118.243,
@@ -40,25 +75,7 @@
                                 )
                       });
       vm.marker.setMap(vm.map);
-      google.maps.event.addListener(vm.marker, 'click', function(){
-                  if(vm.leftPanel=="igShow"){
-                    console.log("if");
-                    vm.leftPanel="";
-                    // vm.igShowClass="hidden";
-                    document.querySelector('#map').className="map_inactive";
-                    document.querySelector('#side').className="side_inactive";
-                  } else if(vm.leftPanel=="igPost"){
-                    console.log("else if");
-                    vm.igShowClass="";
-                    // vm.igPostClass="hidden";
-                  } else {
-                    console.log("else");
-                    vm.leftPanel="igShow";
-                    document.querySelector('ig-show').className="";
-                    document.querySelector('#map').className="map_active";
-                    document.querySelector('#side').className="side_active";
-                  }
-                });
+      google.maps.event.addListener(vm.marker, 'click',vm.igShow);
       setInterval( function(){
         vm.markerData.lat-=0.00001;
         vm.markerData.lng-=0.00001;

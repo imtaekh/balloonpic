@@ -40,8 +40,17 @@ html, body{
 .map_left_tmp{
   width:320px;
 }
-.submenu{
+.submenuDiv{
+  text-align: center;
   height:20px;
+  .submenu{
+    display: inline-block;
+    padding: 0 20px;
+    height: 20px;
+  }
+  .post{
+    background-color: tomato;
+  }
 }
 .map_inactive{
   position: absolute;
