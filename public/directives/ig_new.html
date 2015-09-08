@@ -1,10 +1,13 @@
 <div class="map_left_tmp">
   <div class="container-fluid">
-    <p class="step"> Step1. choose your picture.</p>
-    <div class="row">
-      <div class="col-xs-4 my_ig_pic_con" ng-repeat="ig in mapCtrl.myIgPics">
+    <p class="steps"> Step1. choose your picture.</p>
+    <div class="row step1">
+      <div class="col-xs-4 my_ig_pic_con" ng-repeat="ig in mapCtrl.myIgPics" ng-click="mapCtrl.selectPic(ig.id)" id="{{ig.id}}">
         <img ng-src="{{ig.images.low_resolution.url}}" class="my_ig_pics"/>
       </div>
+    </div>
+    <div class="row">
+      <p class="steps"> Step2. set it's destination</p>
     </div>
   </div>
 

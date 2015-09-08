@@ -93,15 +93,26 @@ html, body{
   }
   overflow: auto;
   .my_ig_pic_con{
-    padding: 0;
+    padding: 6px;
     text-align: center;
   }
   .my_ig_pics{
-    width: 85px;
-    margin: 6px;
+    cursor: pointer;
+    width: 100%;
   }
-  .step{
+  .my_ig_pic_con_hidden{
+    display: none;
+    transition: width, 1s;
+  }
+  .my_ig_pic_con_selected{
+    width: 100%;
+    transition: width, 1s;
+  }
+  .steps{
     margin: 10px 0;
+  }
+  .step1{
+    height:300px;
   }
   .row{
     margin-left: -5px;

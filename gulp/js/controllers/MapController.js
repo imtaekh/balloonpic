@@ -61,7 +61,26 @@
         vm.igIndex();
       }
     };
-
+    vm.igNewPicId = undefined;
+    vm.selectPic = function (id) {
+      if (vm.igNewPicId) {
+        vm.igNewPicId = undefined;
+        var hiddenPics = document.querySelectorAll(".my_ig_pic_con_hidden");
+        for (var i = 0; i < hiddenPics.length; i++) {
+          hiddenPics[i].className="col-xs-4 my_ig_pic_con";
+        }
+        document.getElementById(id).className="col-xs-4 my_ig_pic_con";
+      } else {
+        vm.igNewPicId = id;
+        var myIgPics = document.querySelectorAll(".my_ig_pic_con");
+        for (var i = 0; i < myIgPics.length; i++) {
+          myIgPics[i].className="my_ig_pic_con_hidden";
+        }
+        document.getElementById(id).className="my_ig_pic_con_selected";
+        vm.igShowSelectedPic=id;
+      }
+      console.log(vm.igNewPicId);
+    };
     vm.markers=[{
       lat:34.052,
       lng:-118.243,

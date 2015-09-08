@@ -89,13 +89,21 @@ html, body {
   .map_left_tmp .container-fluid {
     overflow: auto; }
   .map_left_tmp .my_ig_pic_con {
-    padding: 0;
+    padding: 6px;
     text-align: center; }
   .map_left_tmp .my_ig_pics {
-    width: 85px;
-    margin: 6px; }
-  .map_left_tmp .step {
+    cursor: pointer;
+    width: 100%; }
+  .map_left_tmp .my_ig_pic_con_hidden {
+    display: none;
+    transition: width, 1s; }
+  .map_left_tmp .my_ig_pic_con_selected {
+    width: 100%;
+    transition: width, 1s; }
+  .map_left_tmp .steps {
     margin: 10px 0; }
+  .map_left_tmp .step1 {
+    height: 300px; }
   .map_left_tmp .row {
     margin-left: -5px;
     margin-right: -5px; }
