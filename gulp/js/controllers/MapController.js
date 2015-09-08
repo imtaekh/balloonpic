@@ -3,14 +3,13 @@
   angular.module("MapController",[])
     .controller("MapController",MapController);
 
-  MapController.$inject=["$rootScope", "$window", "Auth"];
+  MapController.$inject=["$http","$window","Auth"];
 
-  function MapController($rootScope, $window, Auth){
+  function MapController($http,$window,Auth){
     var vm = this;
-
-    // vm.test="MapController";
-
     vm.leftPanel="";
+
+    vm.myIgPics =[];
 
     vm.igShow = function(){
       if(vm.leftPanel=="igShow"){
@@ -24,26 +23,42 @@
       } else {
         vm.leftPanel="igShow";
         document.querySelector('ig-show').className="";
+        document.querySelector('ig-new').className="hidden";
         document.querySelector('#map').className="map_active";
         document.querySelector('#side').className="side_active";
       }
     };
-
+    vm.igIndex = function () {
+      $http.get("api/my_ig").success(function (data) {
+        if(data.success){
+          vm.myIgPics = data.data;
+        } else {
+          alert("Something went Wrong, please login again..");
+          Auth.logout();
+        }
+      }).error(function function_name(argument) {
+        alert("Something went Wrong, please login again..");
+        Auth.logout();
+      });
+    };
     vm.igNew = function(){
-      if(vm.leftPanel=="igShow"){
-        vm.leftPanel="igNew";
-      document.querySelector('ig-show').className="hidden";
-      document.querySelector('ig-new').className="";
-      } else if(vm.leftPanel=="igNew"){
-        vm.igShowClass="";
+      console.log("IGNEW :",vm.leftPanel);
+      if(vm.leftPanel=="igNew"){
+        vm.leftPanel="";
         document.querySelector('#map').className="map_inactive";
         document.querySelector('#side').className="side_inactive";
-      } else {
-        console.log("else");
+      } else if(vm.leftPanel=="igShow"){
         vm.leftPanel="igNew";
+        document.querySelector('ig-show').className="hidden";
+        document.querySelector('ig-new').className="";
+        vm.igIndex();
+      } else {
+        vm.leftPanel="igNew";
+        document.querySelector('ig-show').className="hidden";
         document.querySelector('ig-new').className="";
         document.querySelector('#map').className="map_active";
         document.querySelector('#side').className="side_active";
+        vm.igIndex();
       }
     };
 
@@ -63,7 +78,8 @@
 
     var centerLatLng = {lat:34.05223,lng:-118.24368};
     document.getElementById('map').style.height=window.innerHeight-70+"px";
-
+    document.querySelector('ig-show').className="hidden";
+    document.querySelector('ig-new').className="hidden";
     var mapInit = function () {
       var mapOptions = {
                     zoom: 12,

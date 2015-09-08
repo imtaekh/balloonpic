@@ -14,7 +14,7 @@
     function igNew() {
       return {
         restrict: 'E',
-        templateUrl: 'directives/ig_post.html'
+        templateUrl: 'directives/ig_new.html'
       };
     }
 
