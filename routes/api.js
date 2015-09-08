@@ -9,7 +9,7 @@ router.route('/me')
 router.route('/my_ig')
   .get(function (req, res) {
     var user = req.decoded;
-    getJSON("https://api.instagram.com/v1/users/"+user.instagramId+"/media/recent?count=10&access_token="+user.accessToken,
+    getJSON("https://api.instagram.com/v1/users/"+user.instagramId+"/media/recent?count=9&access_token="+user.accessToken,
       function (data) {
         res.json({success:true, data:data.data});
       },

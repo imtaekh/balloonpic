@@ -77,7 +77,7 @@
     }];
 
     var centerLatLng = {lat:34.05223,lng:-118.24368};
-    document.getElementById('map').style.height=window.innerHeight-70+"px";
+    document.getElementById('map').style.height=window.innerHeight-50+"px";
     document.querySelector('ig-show').className="hidden";
     document.querySelector('ig-new').className="hidden";
     var mapInit = function () {

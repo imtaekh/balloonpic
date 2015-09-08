@@ -40,13 +40,21 @@ html, body {
   width: 320px; }
 
 .submenuDiv {
+  position: absolute;
+  left: 50%;
+  -moz-transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  z-index: 1;
   text-align: center;
   height: 20px; }
   .submenuDiv .submenu {
+    width: 100px;
     cursor: pointer;
     display: inline-block;
-    padding: 0 20px;
-    height: 20px; }
+    padding: 5px 20px;
+    margin: 5px; }
   .submenuDiv .post {
     background-color: tomato; }
 
@@ -76,10 +84,18 @@ html, body {
   overflow: hidden;
   transition: width, 1s; }
 
-.my_ig_pic_con {
-  padding: 0;
-  text-align: center; }
-
-.my_ig_pics {
-  width: 80px;
-  margin: 2px; }
+.map_left_tmp {
+  overflow: auto; }
+  .map_left_tmp .container-fluid {
+    overflow: auto; }
+  .map_left_tmp .my_ig_pic_con {
+    padding: 0;
+    text-align: center; }
+  .map_left_tmp .my_ig_pics {
+    width: 85px;
+    margin: 6px; }
+  .map_left_tmp .step {
+    margin: 10px 0; }
+  .map_left_tmp .row {
+    margin-left: -5px;
+    margin-right: -5px; }
