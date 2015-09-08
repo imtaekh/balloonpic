@@ -8,7 +8,6 @@
   function MapController($http,$window,Auth){
     var vm = this;
     vm.leftPanel="";
-
     vm.myIgPics =[];
 
     vm.igShow = function(){
@@ -79,8 +78,80 @@
         document.getElementById(id).className="my_ig_pic_con_selected";
         vm.igShowSelectedPic=id;
       }
-      console.log(vm.igNewPicId);
     };
+
+    vm.finalLatLng={};
+
+
+    vm.locationAddress = "";
+    vm.locationAddressSearchResults = "";
+    vm.findByAddress = function () {
+      $http.get("api/find_location_by_address",{
+        params:{
+          address:vm.locationAddress
+        }
+      }).success(function (data) {
+        if(data.success){
+          vm.locationAddressSearchResults=data.data;
+
+          console.log(vm.locationAddressSearchResults);
+        } else {
+          alert("Something went Wrong, please login again..");
+          Auth.logout();
+        }
+      }).error(function function_name(argument) {
+        alert("Something went Wrong, please login again..");
+        Auth.logout();
+      });
+    };
+    vm.selectedAddress = {};
+    vm.selectAddress = function (id) {
+      var address =document.getElementById("address_"+vm.selectedAddressId);
+      vm.selectedAddress.name=address.dataset.name;
+      vm.selectedAddress.lat=address.dataset.lat;
+      vm.selectedAddress.lng=address.dataset.lng;
+      vm.finalLatLng.lat=address.dataset.lat;
+      vm.finalLatLng.lng=address.dataset.lng;
+    };
+    vm.placeName = "";
+    vm.placeNameSearchResults= "";
+    vm.findByPlaceName=function () {
+      $http.get("api/find_location_by_place_name",{
+        params:{
+          lat:vm.selectedAddress.lat,
+          lng:vm.selectedAddress.lng,
+          placename: vm.placeName
+        }
+      }).success(function (data) {
+        if(data.success){
+          vm.placeNameSearchResults=data.data.results;
+          console.log(data.data.results);
+        } else {
+          alert("Something went Wrong, please login again..");
+          Auth.logout();
+        }
+      }).error(function function_name(argument) {
+        alert("Something went Wrong, please login again..");
+        Auth.logout();
+      });
+    };
+    vm.selectedPlaceName ={};
+    vm.selectPlaceName = function () {
+      var placeName =document.getElementById("place_"+vm.selectedPlaceNameId);
+      vm.selectedPlaceName.name=placeName.dataset.name;
+      vm.selectedPlaceName.lat=placeName.dataset.lat;
+      vm.selectedPlaceName.lng=placeName.dataset.lng;
+      vm.finalLatLng.lat=placeName.dataset.lat;
+      vm.finalLatLng.lng=placeName.dataset.lng;
+      console.log(vm.selectedPlaceName);
+    };
+
+
+
+
+
+
+
     vm.markers=[{
       lat:34.052,
       lng:-118.243,

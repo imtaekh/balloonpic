@@ -6,8 +6,51 @@
         <img ng-src="{{ig.images.low_resolution.url}}" class="my_ig_pics"/>
       </div>
     </div>
-    <div class="row">
+    <div class="row" ng-if="mapCtrl.igNewPicId">
       <p class="steps"> Step2. set it's destination</p>
+      <div ng-if="!mapCtrl.selectedAddress.name">
+        city or full address
+        <form ng-submit="mapCtrl.findByAddress()">
+          <input type="text" id="address" class="form-control" ng-model="mapCtrl.locationAddress">
+        </form>
+        <div ng-if="mapCtrl.locationAddressSearchResults">
+          <select ng-model="mapCtrl.selectedAddressId" ng-change="mapCtrl.selectAddress()" class="form-control">
+            <option ng-repeat="address in mapCtrl.locationAddressSearchResults" value="{{address.place_id}}" id="address_{{address.place_id}}" data-lat="{{address.geometry.location.lat}}" data-lng="{{address.geometry.location.lng}}" data-name="{{address.formatted_address}}">
+              {{address.formatted_address}}
+            </option>
+          </select>
+        </div>
+        <div ng-if="mapCtrl.locationAddressSearchResults&&mapCtrl.locationAddressSearchResults.length==0">
+          <p>
+            no results
+          </p>
+        </div>
+      </div>
+
+      <div ng-if="mapCtrl.selectedAddress.name && !mapCtrl.selectedPlaceName.name">
+        <h4>"{{mapCtrl.selectedAddress.name}}"</h4>
+        name of place(optional)
+        <form ng-submit="mapCtrl.findByPlaceName()">
+          <input type="text" id="address" class="form-control" ng-model="mapCtrl.placeName">
+        </form>
+        <div ng-if="mapCtrl.placeNameSearchResults.length">
+          <select ng-model="mapCtrl.selectedPlaceNameId" ng-change="mapCtrl.selectPlaceName()" class="form-control">
+            <option ng-repeat="placeName in mapCtrl.placeNameSearchResults" value="{{placeName.place_id}}" id="place_{{placeName.place_id}}" data-lat="{{placeName.geometry.location.lat}}" data-lng="{{placeName.geometry.location.lng}}" data-name="{{placeName.name}}">
+              {{placeName.name}}
+            </option>
+          </select>
+        </div>
+        <div ng-if="mapCtrl.placeNameSearchResults&&mapCtrl.placeNameSearchResults.length==0">
+          <p>
+            no results
+          </p>
+        </div>
+      </div>
+    <div ng-if="mapCtrl.selectedPlaceName.name">
+      <h4>"{{mapCtrl.selectedPlaceName.name}}, {{mapCtrl.selectedAddress.name}}"</h4>
+    </div>
+    <div class="btns">
+      <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
     </div>
   </div>
 
