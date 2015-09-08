@@ -107,3 +107,15 @@ html, body {
   .map_left_tmp .row {
     margin-left: -5px;
     margin-right: -5px; }
+  .map_left_tmp input {
+    display: inline-block; }
+  .map_left_tmp .text {
+    width: 79%; }
+  .map_left_tmp input[type="submit"] {
+    width: 19%; }
+  .map_left_tmp .destination {
+    display: block;
+    width: 100%; }
+  .map_left_tmp .btns {
+    padding: 10px;
+    text-align: center; }

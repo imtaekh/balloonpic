@@ -8,10 +8,12 @@
     </div>
     <div class="row" ng-if="mapCtrl.igNewPicId">
       <p class="steps"> Step2. set it's destination</p>
+
       <div ng-if="!mapCtrl.selectedAddress.name">
         city or full address
         <form ng-submit="mapCtrl.findByAddress()">
-          <input type="text" id="address" class="form-control" ng-model="mapCtrl.locationAddress">
+          <input type="text" id="address" class="form-control text" ng-model="mapCtrl.locationAddress">
+          <input type="submit" class="btn btn-success" value="find">
         </form>
         <div ng-if="mapCtrl.locationAddressSearchResults">
           <select ng-model="mapCtrl.selectedAddressId" ng-change="mapCtrl.selectAddress()" class="form-control">
@@ -31,7 +33,8 @@
         <h4>"{{mapCtrl.selectedAddress.name}}"</h4>
         name of place(optional)
         <form ng-submit="mapCtrl.findByPlaceName()">
-          <input type="text" id="address" class="form-control" ng-model="mapCtrl.placeName">
+          <input type="text" id="address" class="form-control text" ng-model="mapCtrl.placeName">
+          <input type="submit" class="btn btn-success" value="find">
         </form>
         <div ng-if="mapCtrl.placeNameSearchResults.length">
           <select ng-model="mapCtrl.selectedPlaceNameId" ng-change="mapCtrl.selectPlaceName()" class="form-control">
@@ -45,13 +48,27 @@
             no results
           </p>
         </div>
+        destination name
+        <form ng-submit="mapCtrl.findByPlaceName()">
+          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.destinationName">
+        </form>
       </div>
-    <div ng-if="mapCtrl.selectedPlaceName.name">
-      <h4>"{{mapCtrl.selectedPlaceName.name}}, {{mapCtrl.selectedAddress.name}}"</h4>
-    </div>
-    <div class="btns">
-      <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
+
+      <div ng-if="mapCtrl.selectedPlaceName.name">
+        <h4>"{{mapCtrl.selectedPlaceName.name}}, {{mapCtrl.selectedAddress.name}}"</h4>
+        destination name
+        <form ng-submit="mapCtrl.findByPlaceName()">
+          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.destinationName">
+        </form>
+      </div>
+
+
+
+
+      <div class="btns">
+        <button ng-if="mapCtrl.destinationName" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
+        <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
+      </div>
     </div>
   </div>
-
 </div>
