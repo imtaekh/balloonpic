@@ -18,12 +18,14 @@
         google.maps.event.trigger(map, "resize");
       },1000);
     };
-    vm.igShow = function(){
-      vm.igPic.balloon=this;
-      console.log(vm.igPic.balloon.title);
+    vm.igShowIsRunning=false;
+    vm.igShow = function(marker){
+      if(vm.igShowIsRunning) return;
+      vm.igShowIsRunning=true;
+      vm.igPic.balloon=marker;
       $http.get("api/show_ig",{
         params:{
-          igid:this.igId
+          igid:marker.igId
         }
       }).success(function (data) {
         if(data.success){
@@ -42,6 +44,7 @@
             document.querySelector('#map').className="map_active";
             document.querySelector('#side').className="side_active";
           }
+          vm.igShowIsRunning=false;
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -230,22 +233,25 @@
       });
     };
 
-    vm.generateMarker=function (marker) {
-      marker.marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(marker.lat, marker.lng),
-                          title: marker.name,
-                          igId: marker.igId,
+    vm.generateMarker=function (markerObj) {
+      markerObj.marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(markerObj.lat, markerObj.lng),
+                          title: markerObj.name,
+                          igId: markerObj.igId,
                           icon: new google.maps.MarkerImage(
-                                  marker.igImage,
+                                  markerObj.igImage,
                                   null, /* size is determined at runtime */
                                   null, /* origin is 0,0 */
                                   null, /* anchor is bottom center of the scaled image */
-                                  new google.maps.Size(40, 40)
+                                  new google.maps.Size(30, 30)
                                 )
                       });
-      vm.map.markerClusterer.addMarker(marker.marker);
-      marker.marker.setMap(vm.map);
-      google.maps.event.addListener(marker.marker, 'click', vm.igShow);
+      markerObj.marker.setMap(vm.map);
+      var newMarker=markerObj.marker;
+      vm.oms.addListener('click', function(newMarker, event) {
+        vm.igShow(newMarker);
+      });
+      vm.oms.addMarker(newMarker);
     };
 
     vm.markers=[];
@@ -267,8 +273,7 @@
       vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
       vm.map.mapTypes.set('map_style', customMapType);
       vm.map.setMapTypeId('map_style');
-      vm.map.markerClusterer = new MarkerClusterer(vm.map,[]);
-
+      vm.oms = new OverlappingMarkerSpiderfier(vm.map,{circleSpiralSwitchover: 1000});
 
       vm.markers.forEach(function (marker) {
         vm.generateMarker(marker);
@@ -278,19 +283,27 @@
 
       setInterval( function(){
         vm.markers.forEach(function (marker) {
+          var change = false;
+
           if(marker.latVel>0 && marker.endLat>marker.lat){
-            marker.lat+=marker.latVel;
+            marker.lat += marker.latVel;
+            change = true;
           } else if(marker.latVel<0 && marker.endLat<marker.lat){
-            marker.lat+=marker.latVel;
+            marker.lat += marker.latVel;
+            change = true;
           }
 
 
           if(marker.lngVel>0 && marker.endLng>marker.lng){
-            marker.lng+=marker.lngVel;
+            marker.lng += marker.lngVel;
+            change = true;
           } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-            marker.lng+=marker.lngVel;
+            marker.lng += marker.lngVel;
+            change = true;
           }
-          marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
+
+          if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
+
         });
       }, 100 );
 
