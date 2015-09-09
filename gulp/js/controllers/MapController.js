@@ -10,7 +10,14 @@
     vm.leftPanel="";
     vm.myIgPics =[];
     vm.igPic ={};
-
+    vm.closeLeftPanel=function () {
+      vm.leftPanel="";
+      document.querySelector('#map').className="map_inactive";
+      document.querySelector('#side').className="side_inactive";
+      setTimeout(function () {
+        google.maps.event.trigger(map, "resize");
+      },1000);
+    };
     vm.igShow = function(){
       $http.get("api/show_ig",{
         params:{
@@ -20,12 +27,7 @@
         if(data.success){
           vm.igPic = data.data;
           if(vm.leftPanel==vm.igPic.id){
-            vm.leftPanel="";
-            document.querySelector('#map').className="map_inactive";
-            document.querySelector('#side').className="side_inactive";
-            setTimeout(function () {
-              google.maps.event.trigger(map, "resize");
-            },1000);
+            vm.closeLeftPanel();
           } else if(vm.leftPanel=="igNew"){
             vm.leftPanel=vm.igPic.igId;
             document.querySelector('ig-show').className="";
@@ -41,8 +43,8 @@
           alert("Something went Wrong, please login again..");
           Auth.logout();
         }
-      }).error(function function_name(argument) {
-        alert("Something went Wrong, please login again..");
+      }).error(function (error) {
+        alert("Something went Wrong, please login again..", error);
         Auth.logout();
       });
     };
@@ -55,19 +57,14 @@
           alert("Something went Wrong, please login again..");
           Auth.logout();
         }
-      }).error(function function_name(argument) {
-        alert("Something went Wrong, please login again..");
+      }).error(function (error) {
+        alert("Something went Wrong, please login again..", error);
         Auth.logout();
       });
     };
     vm.igNew = function(){
       if(vm.leftPanel=="igNew"){
-        vm.leftPanel="";
-        document.querySelector('#map').className="map_inactive";
-        document.querySelector('#side').className="side_inactive";
-        setTimeout(function () {
-          google.maps.event.trigger(map, "resize");
-        },1000);
+        vm.closeLeftPanel();
       } else if(vm.leftPanel){
         vm.leftPanel="igNew";
         document.querySelector('ig-show').className="hidden";
@@ -138,8 +135,8 @@
           alert("Something went Wrong, please login again..");
           Auth.logout();
         }
-      }).error(function function_name(argument) {
-        alert("Something went Wrong, please login again..");
+      }).error(function (error) {
+        alert("Something went Wrong, please login again..", error);
         Auth.logout();
       });
     };
@@ -171,8 +168,8 @@
           alert("Something went Wrong, please login again..");
           Auth.logout();
         }
-      }).error(function function_name(argument) {
-        alert("Something went Wrong, please login again..");
+      }).error(function (error) {
+        alert("Something went Wrong, please login again..", error);
         Auth.logout();
       });
     };
@@ -214,12 +211,16 @@
           console.log(data.data);
           vm.markers.push(data.data);
           vm.generateMarker(vm.markers[vm.markers.length-1]);
+
+          vm.map.setCenter(new google.maps.LatLng(data.data.lat,data.data.lng));
+          vm.map.setZoom(12);
+
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
         }
-      }).error(function function_name(argument) {
-        alert("Something went Wrong, please login again..");
+      }).error(function (error) {
+        alert("Something went Wrong, please login again..", error);
         Auth.logout();
       });
     };
@@ -251,11 +252,19 @@
     document.querySelector('ig-show').className="hidden";
     document.querySelector('ig-new').className="hidden";
     var mapInit = function (lat,lng,zoom) {
+      var customMapType = new google.maps.StyledMapType([{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}],{
+        name: 'map_style'
+      });
       var mapOptions = {
                     zoom: zoom,
-                    center: new google.maps.LatLng(lat,lng)
+                    center: new google.maps.LatLng(lat,lng),
+                    mapTypeControlOptions: {
+                     mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+                   }
                 };
       vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      vm.map.mapTypes.set('map_style', customMapType);
+      vm.map.setMapTypeId('map_style');
 
       vm.markers.forEach(function (marker) {
         vm.generateMarker(marker);
@@ -290,8 +299,8 @@
         alert("Something went Wrong, please login again..");
         Auth.logout();
       }
-    }).error(function function_name(argument) {
-      alert("Something went Wrong, please login again..");
+    }).error(function (error) {
+      alert("Something went Wrong, please login again..", error);
       Auth.logout();
     });
 
