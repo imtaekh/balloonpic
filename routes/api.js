@@ -3,6 +3,24 @@ var appConfig = require('../config/app_config');
 var XMLHttpRequest= require("xhr2");
 var express       = require('express');
 var router        = express.Router();
+var Balloon = require('../models/Balloon');
+
+router.route('/balloons')
+  .get(function (req, res) {
+    Balloon.find({},function (err,balloons) {
+      if(err) return res.json({success:false, message:err.message});
+      res.json({success:true, data:balloons});
+    });
+  })
+  .post(function (req, res) {
+    req.body.owner=req.decoded.id;
+    console.log(req.body);
+    Balloon.create(req.body,function (err,balloon) {
+      if(err) return res.json({success:false, message:err});
+      res.json({success:true, data:balloon});
+    });
+  });
+
 
 router.route('/me')
   .get(function (req, res) {

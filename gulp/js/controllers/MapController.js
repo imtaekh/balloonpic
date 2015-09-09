@@ -193,10 +193,10 @@
         rad=Math.PI+Math.atan(latDif/lngDif);
       }
       console.log("rad:",rad);
-      var latVol=Math.sin(rad);
-      var lngVol=Math.cos(rad);
-      console.log("latVol:",latVol);
-      console.log("lngVol:",lngVol);
+      var latVel=Math.sin(rad)*0.001;
+      var lngVel=Math.cos(rad)*0.001;
+      console.log("latVel:",latVel);
+      console.log("lngVel:",lngVel);
 
 
 
@@ -214,8 +214,8 @@
         lng:-118.243,
         endLat:34.0900091,
         endLng:-118.3617443,
-        latVol:0.0003047649261696503,
-        lngVol:-0.000952427603430732,
+        latVel:0.0003047649261696503,
+        lngVel:-0.000952427603430732,
         imgUrl:"http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"
       },
       {
@@ -223,8 +223,8 @@
         lng:-118.243,
         endLat:34.0194543,
         endLng:-118.4911912,
-        latVol:-0.00013127510333688666,
-        lngVol:-0.000991345977569834,
+        latVel:-0.00013127510333688666,
+        lngVel:-0.000991345977569834,
         imgUrl:"http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"
       }
     ];
@@ -243,9 +243,9 @@
       vm.markers.forEach(function (marker) {
         marker.marker = new google.maps.Marker({
                             position: new google.maps.LatLng(marker.lat, marker.lng),
-                            title: "my marker",
+                            title: marker.name,
                             icon: new google.maps.MarkerImage(
-                                    marker.imgUrl,
+                                    marker.igImage,
                                     null, /* size is determined at runtime */
                                     null, /* origin is 0,0 */
                                     null, /* anchor is bottom center of the scaled image */
@@ -260,19 +260,19 @@
 
     setInterval( function(){
       vm.markers.forEach(function (marker) {
-        if(marker.latVol>0 && marker.endLat>marker.lat){
-          marker.lat+=marker.latVol;
-        } else if(marker.latVol<0 && marker.endLat<marker.lat){
-          marker.lat+=marker.latVol;
+        if(marker.latVel>0 && marker.endLat>marker.lat){
+          marker.lat+=marker.latVel;
+        } else if(marker.latVel<0 && marker.endLat<marker.lat){
+          marker.lat+=marker.latVel;
         }
 
 
-        if(marker.lngVol>0 && marker.endLng>marker.lng){
+        if(marker.lngVel>0 && marker.endLng>marker.lng){
           console.log("if");
-          marker.lng+=marker.lngVol;
-        } else if(marker.lngVol<0 && marker.endLng<marker.lng){
+          marker.lng+=marker.lngVel;
+        } else if(marker.lngVel<0 && marker.endLng<marker.lng){
           console.log("else");
-          marker.lng+=marker.lngVol;
+          marker.lng+=marker.lngVel;
         }
         // console.log(marker);
         marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
@@ -280,8 +280,20 @@
     }, 100 );
 
     };
-    mapInit(vm.centerLatLng.lat,vm.centerLatLng.lng,12);
-    console.dir(vm.map);
+    $http.get("api/balloons").success(function (data) {
+      if(data.success){
+        vm.markers = data.data;
+        console.log(data.data);
+        mapInit(vm.centerLatLng.lat,vm.centerLatLng.lng,12);
+      } else {
+        alert("Something went Wrong, please login again..");
+        Auth.logout();
+      }
+    }).error(function function_name(argument) {
+      alert("Something went Wrong, please login again..");
+      Auth.logout();
+    });
+
     // window.navigator.geolocation.getCurrentPosition(
     //   function (position) {
     //     vm.centerLatLng.lat = position.coords.latitude;
