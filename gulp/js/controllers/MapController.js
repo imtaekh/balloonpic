@@ -240,15 +240,13 @@
                                   null, /* size is determined at runtime */
                                   null, /* origin is 0,0 */
                                   null, /* anchor is bottom center of the scaled image */
-                                  new google.maps.Size(60, 60)
+                                  new google.maps.Size(40, 40)
                                 )
                       });
+      vm.map.markerClusterer.addMarker(marker.marker);
       marker.marker.setMap(vm.map);
       google.maps.event.addListener(marker.marker, 'click', vm.igShow);
     };
-
-
-
 
     vm.markers=[];
 
@@ -269,6 +267,8 @@
       vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
       vm.map.mapTypes.set('map_style', customMapType);
       vm.map.setMapTypeId('map_style');
+      vm.map.markerClusterer = new MarkerClusterer(vm.map,[]);
+
 
       vm.markers.forEach(function (marker) {
         vm.generateMarker(marker);
@@ -276,25 +276,27 @@
 
 
 
-    setInterval( function(){
-      vm.markers.forEach(function (marker) {
-        if(marker.latVel>0 && marker.endLat>marker.lat){
-          marker.lat+=marker.latVel;
-        } else if(marker.latVel<0 && marker.endLat<marker.lat){
-          marker.lat+=marker.latVel;
-        }
+      setInterval( function(){
+        vm.markers.forEach(function (marker) {
+          if(marker.latVel>0 && marker.endLat>marker.lat){
+            marker.lat+=marker.latVel;
+          } else if(marker.latVel<0 && marker.endLat<marker.lat){
+            marker.lat+=marker.latVel;
+          }
 
 
-        if(marker.lngVel>0 && marker.endLng>marker.lng){
-          marker.lng+=marker.lngVel;
-        } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-          marker.lng+=marker.lngVel;
-        }
-        marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
-      });
-    }, 100 );
+          if(marker.lngVel>0 && marker.endLng>marker.lng){
+            marker.lng+=marker.lngVel;
+          } else if(marker.lngVel<0 && marker.endLng<marker.lng){
+            marker.lng+=marker.lngVel;
+          }
+          marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
+        });
+      }, 100 );
 
     };
+
+
     $http.get("api/balloons").success(function (data) {
       if(data.success){
         vm.markers = data.data;
