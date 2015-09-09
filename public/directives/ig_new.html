@@ -2,11 +2,11 @@
   <div class="container-fluid">
     <p class="steps"> Step1. choose your picture.</p>
     <div class="row step1">
-      <div class="col-xs-4 my_ig_pic_con" ng-repeat="ig in mapCtrl.myIgPics" ng-click="mapCtrl.selectPic(ig.id)" id="{{ig.id}}">
+      <div class="col-xs-4 my_ig_pic_con" ng-repeat="ig in mapCtrl.myIgPics" ng-click="mapCtrl.selectPic(ig.id)" id="{{ig.id}}" data-image="{{ig.images.low_resolution.url}}" data-link="{{ig.link}}">
         <img ng-src="{{ig.images.low_resolution.url}}" class="my_ig_pics"/>
       </div>
     </div>
-    <div class="row" ng-if="mapCtrl.igNewPicId">
+    <div class="row" ng-if="mapCtrl.igNewPic">
       <p class="steps"> Step2. set it's destination</p>
 
       <div ng-if="!mapCtrl.selectedAddress.name">
@@ -50,7 +50,7 @@
         </div>
         destination name
         <form ng-submit="mapCtrl.findByPlaceName()">
-          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.destinationName">
+          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalLatLng.name">
         </form>
       </div>
 
@@ -58,7 +58,7 @@
         <h4>"{{mapCtrl.selectedPlaceName.name}}, {{mapCtrl.selectedAddress.name}}"</h4>
         destination name
         <form ng-submit="mapCtrl.findByPlaceName()">
-          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.destinationName">
+          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalLatLng.name">
         </form>
       </div>
 
@@ -66,7 +66,7 @@
 
 
       <div class="btns">
-        <button ng-if="mapCtrl.destinationName" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
+        <button ng-if="mapCtrl.finalLatLng.name" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
         <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
       </div>
     </div>
