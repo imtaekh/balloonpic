@@ -191,15 +191,9 @@
     vm.confirm=function () {
       var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
       var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
-      var rad;
-      if(lngDif >= 0){
-        rad=Math.atan(latDif/lngDif);
-      } else if(lngDif <= 0){
-        rad=Math.PI+Math.atan(latDif/lngDif);
-      }
+      var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
       var latVel=Math.sin(rad)*0.001;
       var lngVel=Math.cos(rad)*0.001;
-
 
       var Balloon = {
         name: vm.finalLatLng.name,
@@ -217,7 +211,9 @@
       $http.post("api/balloons",Balloon)
       .success(function (data) {
         if(data.success){
-
+          console.log(data.data);
+          vm.markers.push(data.data);
+          vm.generateMarker(vm.markers[vm.markers.length-1]);
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -228,7 +224,22 @@
       });
     };
 
-
+    vm.generateMarker=function (marker) {
+      marker.marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(marker.lat, marker.lng),
+                          title: marker.name,
+                          igId: marker.igId,
+                          icon: new google.maps.MarkerImage(
+                                  marker.igImage,
+                                  null, /* size is determined at runtime */
+                                  null, /* origin is 0,0 */
+                                  null, /* anchor is bottom center of the scaled image */
+                                  new google.maps.Size(60, 60)
+                                )
+                      });
+      marker.marker.setMap(vm.map);
+      google.maps.event.addListener(marker.marker, 'click', vm.igShow);
+    };
 
 
 
@@ -247,20 +258,7 @@
       vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
       vm.markers.forEach(function (marker) {
-        marker.marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(marker.lat, marker.lng),
-                            title: marker.name,
-                            igId: marker.igId,
-                            icon: new google.maps.MarkerImage(
-                                    marker.igImage,
-                                    null, /* size is determined at runtime */
-                                    null, /* origin is 0,0 */
-                                    null, /* anchor is bottom center of the scaled image */
-                                    new google.maps.Size(60, 60)
-                                  )
-                        });
-        marker.marker.setMap(vm.map);
-        google.maps.event.addListener(marker.marker, 'click', vm.igShow);
+        vm.generateMarker(marker);
       });
 
 
