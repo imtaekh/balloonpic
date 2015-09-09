@@ -9,23 +9,45 @@
     var vm = this;
     vm.leftPanel="";
     vm.myIgPics =[];
+    vm.igPic ={};
 
     vm.igShow = function(){
-      if(vm.leftPanel=="igShow"){
-        vm.leftPanel="";
-        document.querySelector('#map').className="map_inactive";
-        document.querySelector('#side').className="side_inactive";
-      } else if(vm.leftPanel=="igNew"){
-        vm.leftPanel="igShow";
-        document.querySelector('ig-show').className="";
-        document.querySelector('ig-new').className="hidden";
-      } else {
-        vm.leftPanel="igShow";
-        document.querySelector('ig-show').className="";
-        document.querySelector('ig-new').className="hidden";
-        document.querySelector('#map').className="map_active";
-        document.querySelector('#side').className="side_active";
-      }
+      console.log(this.igId);
+
+      $http.get("api/show_ig",{
+        params:{
+          igid:this.igId
+        }
+      }).success(function (data) {
+        if(data.success){
+          vm.igPic = data.data;
+          console.log(vm.igPic);
+          if(vm.leftPanel==vm.igPic.igId){
+            vm.leftPanel="";
+            document.querySelector('#map').className="map_inactive";
+            document.querySelector('#side').className="side_inactive";
+            setTimeout(function () {
+              google.maps.event.trigger(map, "resize");
+            },1000);
+          } else if(vm.leftPanel=="igNew"){
+            vm.leftPanel=vm.igPic.igId;
+            document.querySelector('ig-show').className="";
+            document.querySelector('ig-new').className="hidden";
+          } else {
+            vm.leftPanel=vm.igPic.igId;
+            document.querySelector('ig-show').className="";
+            document.querySelector('ig-new').className="hidden";
+            document.querySelector('#map').className="map_active";
+            document.querySelector('#side').className="side_active";
+          }
+        } else {
+          alert("Something went Wrong, please login again..");
+          Auth.logout();
+        }
+      }).error(function function_name(argument) {
+        alert("Something went Wrong, please login again..");
+        Auth.logout();
+      });
     };
     vm.igIndex = function () {
       $http.get("api/my_ig").success(function (data) {
@@ -42,12 +64,14 @@
       });
     };
     vm.igNew = function(){
-      console.log("IGNEW :",vm.leftPanel);
       if(vm.leftPanel=="igNew"){
         vm.leftPanel="";
         document.querySelector('#map').className="map_inactive";
         document.querySelector('#side').className="side_inactive";
-      } else if(vm.leftPanel=="igShow"){
+        setTimeout(function () {
+          google.maps.event.trigger(map, "resize");
+        },1000);
+      } else if(vm.leftPanel){
         vm.leftPanel="igNew";
         document.querySelector('ig-show').className="hidden";
         document.querySelector('ig-new').className="";
@@ -208,26 +232,7 @@
 
 
 
-    vm.markers=[
-      {
-        lat:34.052,
-        lng:-118.243,
-        endLat:34.0900091,
-        endLng:-118.3617443,
-        latVel:0.0003047649261696503,
-        lngVel:-0.000952427603430732,
-        imgUrl:"http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"
-      },
-      {
-        lat:34.052,
-        lng:-118.243,
-        endLat:34.0194543,
-        endLng:-118.4911912,
-        latVel:-0.00013127510333688666,
-        lngVel:-0.000991345977569834,
-        imgUrl:"http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"
-      }
-    ];
+    vm.markers=[];
 
     vm.centerLatLng = {lat:34.05223,lng:-118.24368};
     document.getElementById('map').style.height=window.innerHeight-50+"px";
@@ -244,6 +249,7 @@
         marker.marker = new google.maps.Marker({
                             position: new google.maps.LatLng(marker.lat, marker.lng),
                             title: marker.name,
+                            igId: marker.igId,
                             icon: new google.maps.MarkerImage(
                                     marker.igImage,
                                     null, /* size is determined at runtime */
@@ -268,10 +274,8 @@
 
 
         if(marker.lngVel>0 && marker.endLng>marker.lng){
-          console.log("if");
           marker.lng+=marker.lngVel;
         } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-          console.log("else");
           marker.lng+=marker.lngVel;
         }
         // console.log(marker);
