@@ -19,22 +19,24 @@
       },1000);
     };
     vm.igShow = function(){
+      vm.igPic.balloon=this;
+      console.log(vm.igPic.balloon.title);
       $http.get("api/show_ig",{
         params:{
           igid:this.igId
         }
       }).success(function (data) {
         if(data.success){
-          vm.igPic = data.data;
+          vm.igPic.ig = data.data;
           console.log(vm.igPic);
-          if(vm.leftPanel==vm.igPic.id){
+          if(vm.leftPanel==vm.igPic.ig.id){
             vm.closeLeftPanel();
           } else if(vm.leftPanel=="igNew"){
             vm.leftPanel=vm.igPic.igId;
             document.querySelector('ig-show').className="";
             document.querySelector('ig-new').className="hidden";
           } else {
-            vm.leftPanel=vm.igPic.igId;
+            vm.leftPanel=vm.igPic.ig.id;
             document.querySelector('ig-show').className="";
             document.querySelector('ig-new').className="hidden";
             document.querySelector('#map').className="map_active";
@@ -251,7 +253,6 @@
     vm.markers=[];
 
     vm.centerLatLng = {lat:34.05223,lng:-118.24368};
-    document.getElementById('map').style.height=window.innerHeight-50+"px";
     document.querySelector('ig-show').className="hidden";
     document.querySelector('ig-new').className="hidden";
     var mapInit = function (lat,lng,zoom) {

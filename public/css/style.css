@@ -50,7 +50,6 @@ html, body {
   text-align: center;
   height: 20px; }
   .submenuDiv .submenu {
-    width: 100px;
     cursor: pointer;
     display: inline-block;
     padding: 5px 20px;
@@ -59,12 +58,16 @@ html, body {
     background-color: tomato; }
 
 .map_inactive {
+  top: 52px;
+  bottom: 0;
   position: absolute;
   left: 0;
   right: 0;
   transition: left, 1s; }
 
 .map_active {
+  top: 52px;
+  bottom: 0;
   position: absolute;
   left: 320px;
   right: 0;
@@ -80,8 +83,10 @@ html, body {
 .side_active {
   position: absolute;
   left: 0;
+  top: 52px;
+  bottom: 0;
   width: 320px;
-  overflow: hidden;
+  overflow-y: scroll;
   transition: width, 1s; }
 
 .ng_new {
@@ -125,6 +130,10 @@ html, body {
     margin: 20px 0;
     width: 100%; }
 
+.ng_show .text-center {
+  position: relative;
+  text-align: center; }
+
 .ng_show .no-padding {
   padding: 0; }
 
@@ -132,14 +141,12 @@ html, body {
   margin: 0; }
 
 .ng_show .profile_div {
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
   background-color: #F9f9f9;
   display: flex;
   padding-top: 10px;
   padding-bottom: 10px; }
-
-.ng_show .profile_pic_con {
-  position: relative;
-  text-align: center; }
 
 .ng_show .profile_pic {
   width: 30px;
@@ -148,3 +155,15 @@ html, body {
 
 .ng_show .ig_pic {
   width: 100%; }
+
+.ng_show .data_div {
+  padding-top: 10px; }
+  .ng_show .data_div h5 {
+    margin: 0;
+    display: inline-block; }
+  .ng_show .data_div .col-xs-12 {
+    padding-top: 5px; }
+  .ng_show .data_div .ig_btn {
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px; }

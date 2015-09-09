@@ -1,11 +1,30 @@
 <div class="map_left_tmp ng_show">
-    <div class="row no-margin profile_div">
-      <div class="col-xs-2 no-padding profile_pic_con">
-        <img ng-src="{{mapCtrl.igPic.user.profile_picture}}" class="profile_pic divCenter">
+  <div class="text-center">
+    <h4>Flying to "{{mapCtrl.igPic.balloon.title}}"</h4>
+  </div>
+  <div class="row no-margin profile_div">
+    <div class="col-xs-2 no-padding text-center">
+      <img ng-src="{{mapCtrl.igPic.ig.user.profile_picture}}" class="profile_pic divCenter">
+    </div>
+    <div class="col-xs-10 no-padding">
+      <h5><a ng-href="https://instagram.com/{{mapCtrl.igPic.ig.user.username}}/" target="_blank">{{mapCtrl.igPic.ig.user.username}}</a></h5>
+    </div>
+  </div>
+  <img ng-src="{{mapCtrl.igPic.ig.images.low_resolution.url}}" class="ig_pic" />
+  <div class="container-fluid">
+    <div class="row data_div">
+      <div class="col-xs-12">
+        {{mapCtrl.igPic.ig.likes.count}} likes
       </div>
-      <div class="col-xs-10 no-padding">
-        <h5><a ng-href="https://instagram.com/{{mapCtrl.igPic.user.username}}/" target="_blank">{{mapCtrl.igPic.user.username}}</a></h5>
+      <div class="col-xs-12">
+        <h5>{{mapCtrl.igPic.ig.user.username}}</h5> {{mapCtrl.igPic.ig.caption.text}}
+      </div>
+      <div class="col-xs-12" ng-repeat="comment in mapCtrl.igPic.ig.comments.data">
+        <h5>{{comment.from.username}}</h5> {{comment.text}}
+      </div>
+      <div class="col-xs-12 text-center">
+        <a ng-href="{{mapCtrl.igPic.ig.link}}" target="_blank"class="btn btn-primary ig_btn">view on Instagram</a>
       </div>
     </div>
-    <img ng-src="{{mapCtrl.igPic.images.low_resolution.url}}" class="ig_pic" />
+  </div>
 </div>
