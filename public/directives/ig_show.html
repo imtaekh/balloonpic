@@ -1,4 +1,11 @@
-<div class="map_left_tmp">
-  {{mapCtrl.igPic.images.low_resolution.url}}
-  <img ng-src="{{mapCtrl.igPic.images.low_resolution.url}}" alt="" />
+<div class="map_left_tmp ng_show">
+    <div class="row no-margin profile_div">
+      <div class="col-xs-2 no-padding profile_pic_con">
+        <img ng-src="{{mapCtrl.igPic.user.profile_picture}}" class="profile_pic divCenter">
+      </div>
+      <div class="col-xs-10 no-padding">
+        <h5><a ng-href="https://instagram.com/{{mapCtrl.igPic.user.username}}/" target="_blank">{{mapCtrl.igPic.user.username}}</a></h5>
+      </div>
+    </div>
+    <img ng-src="{{mapCtrl.igPic.images.low_resolution.url}}" class="ig_pic" />
 </div>

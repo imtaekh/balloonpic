@@ -87,7 +87,7 @@ html, body{
   overflow: hidden;
   transition: width, 1s;
 }
-.map_left_tmp{
+.ng_new{
   .container-fluid{
     overflow: auto;
   }
@@ -135,11 +135,37 @@ html, body{
     padding: 10px;
     text-align: center;
   }
-}
-.thanks{
-  text-align: center;
+  .thanks{
+    text-align: center;
+  }
   .thanks_ballooon{
     margin: 20px 0;
     width: 100%;
+  }
+}
+.ng_show{
+  .no-padding{
+    padding:0;
+  }
+  .no-margin{
+    margin:0;
+  }
+  .profile_div{
+    background-color: #F9f9f9;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .profile_pic_con{
+    position: relative;
+    text-align: center;
+  }
+  .profile_pic{
+    width:30px;
+    border: 2px solid gray;
+    border-radius: 50%;
+  }
+  .ig_pic{
+    width:100%;
   }
 }

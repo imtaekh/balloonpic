@@ -84,44 +84,67 @@ html, body {
   overflow: hidden;
   transition: width, 1s; }
 
-.map_left_tmp {
+.ng_new {
   overflow: auto; }
-  .map_left_tmp .container-fluid {
+  .ng_new .container-fluid {
     overflow: auto; }
-  .map_left_tmp .my_ig_pic_con {
+  .ng_new .my_ig_pic_con {
     padding: 6px;
     text-align: center; }
-  .map_left_tmp .my_ig_pics {
+  .ng_new .my_ig_pics {
     cursor: pointer;
     width: 100%; }
-  .map_left_tmp .my_ig_pic_con_hidden {
+  .ng_new .my_ig_pic_con_hidden {
     display: none;
     transition: width, 1s; }
-  .map_left_tmp .my_ig_pic_con_selected {
+  .ng_new .my_ig_pic_con_selected {
     width: 100%;
     transition: width, 1s; }
-  .map_left_tmp .steps {
+  .ng_new .steps {
     margin: 10px 0; }
-  .map_left_tmp .step1 {
+  .ng_new .step1 {
     height: 300px; }
-  .map_left_tmp .row {
+  .ng_new .row {
     margin-left: -5px;
     margin-right: -5px; }
-  .map_left_tmp input {
+  .ng_new input {
     display: inline-block; }
-  .map_left_tmp .text {
+  .ng_new .text {
     width: 79%; }
-  .map_left_tmp input[type="submit"] {
+  .ng_new input[type="submit"] {
     width: 19%; }
-  .map_left_tmp .destination {
+  .ng_new .destination {
     display: block;
     width: 100%; }
-  .map_left_tmp .btns {
+  .ng_new .btns {
     padding: 10px;
     text-align: center; }
-
-.thanks {
-  text-align: center; }
-  .thanks .thanks_ballooon {
+  .ng_new .thanks {
+    text-align: center; }
+  .ng_new .thanks_ballooon {
     margin: 20px 0;
     width: 100%; }
+
+.ng_show .no-padding {
+  padding: 0; }
+
+.ng_show .no-margin {
+  margin: 0; }
+
+.ng_show .profile_div {
+  background-color: #F9f9f9;
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+.ng_show .profile_pic_con {
+  position: relative;
+  text-align: center; }
+
+.ng_show .profile_pic {
+  width: 30px;
+  border: 2px solid gray;
+  border-radius: 50%; }
+
+.ng_show .ig_pic {
+  width: 100%; }

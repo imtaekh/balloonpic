@@ -26,6 +26,7 @@
       }).success(function (data) {
         if(data.success){
           vm.igPic = data.data;
+          console.log(vm.igPic);
           if(vm.leftPanel==vm.igPic.id){
             vm.closeLeftPanel();
           } else if(vm.leftPanel=="igNew"){
