@@ -101,6 +101,7 @@
       vm.placeNameId = "";
       vm.placeNameSearchResults= "";
       vm.selectedPlaceName = {};
+      vm.igShowDone=false;
     };
     vm.igNewPic = undefined;
     vm.selectPic = function (id) {
@@ -185,6 +186,7 @@
       vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
       vm.map.setZoom(16);
     };
+    vm.igShowDone=false;
     vm.confirm=function () {
       var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
       var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
@@ -214,7 +216,7 @@
 
           vm.map.setCenter(new google.maps.LatLng(data.data.lat,data.data.lng));
           vm.map.setZoom(12);
-
+          vm.igShowDone=true;
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();

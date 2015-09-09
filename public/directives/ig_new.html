@@ -1,5 +1,5 @@
 <div class="map_left_tmp">
-  <div class="container-fluid">
+  <div class="container-fluid" ng-if="!mapCtrl.igShowDone">
     <p class="steps"> Step1. choose your picture.</p>
     <div class="row step1">
       <div class="col-xs-4 my_ig_pic_con" ng-repeat="ig in mapCtrl.myIgPics" ng-click="mapCtrl.selectPic(ig.id)" id="{{ig.id}}" data-image="{{ig.images.low_resolution.url}}" data-link="{{ig.link}}">
@@ -70,5 +70,11 @@
         <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
       </div>
     </div>
+  </div>
+
+  <div ng-if="mapCtrl.igShowDone" class="thanks">
+    <h3>Thanks!</h3>
+    <img src="images/balloon_000.jpg" class="thanks_ballooon">
+    <button ng-click="mapCtrl.startOver()" class="btn btn-success">Fly another one!</button>
   </div>
 </div>
