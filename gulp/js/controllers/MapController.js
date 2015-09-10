@@ -106,6 +106,9 @@
       vm.placeName = "";
       vm.placeNameSearchResults= "";
       vm.selectedPlaceNameId = "";
+      if(vm.selectedPlaceName.marker){
+        vm.selectedPlaceName.marker.setMap(null);
+      }
       vm.selectedPlaceName = {};
       vm.igShowDone=false;
     };
@@ -138,6 +141,7 @@
       }).success(function (data) {
         if(data.success){
           vm.locationAddressSearchResults=data.data;
+          console.log(data.data);
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -188,9 +192,27 @@
       vm.selectedPlaceName.lng=placeName.dataset.lng;
       vm.finalLatLng.lat=placeName.dataset.lat;
       vm.finalLatLng.lng=placeName.dataset.lng;
+      vm.finalLatLng.name=vm.selectedPlaceName.name;
+
+
+
       google.maps.event.trigger(map, "resize");
+
+      vm.selectedPlaceName.infowindow = new google.maps.InfoWindow({
+        content: vm.selectedPlaceName.name
+      });
+      if(vm.selectedPlaceName.marker){
+        vm.selectedPlaceName.marker.setMap(null);
+      }
+      vm.selectedPlaceName.marker = new google.maps.Marker({
+                                      position: new google.maps.LatLng(vm.selectedPlaceName.lat, vm.selectedPlaceName.lng),
+                                      title: vm.selectedPlaceName.name
+                                    });
+      vm.selectedPlaceName.marker.setMap(vm.map);
+      vm.selectedPlaceName.infowindow.open(vm.map, vm.selectedPlaceName.marker);
       vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
       vm.map.setZoom(16);
+
     };
     vm.igShowDone=false;
     vm.confirm=function () {

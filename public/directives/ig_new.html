@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div ng-if="mapCtrl.selectedAddress.name && !mapCtrl.selectedPlaceName.name">
+      <div ng-if="mapCtrl.selectedAddress.name">
         <h4>"{{mapCtrl.selectedAddress.name}}"</h4>
         name of place(optional)
         <form ng-submit="mapCtrl.findByPlaceName()">
@@ -53,17 +53,6 @@
           <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalLatLng.name">
         </form>
       </div>
-
-      <div ng-if="mapCtrl.selectedPlaceName.name">
-        <h4>"{{mapCtrl.selectedPlaceName.name}}, {{mapCtrl.selectedAddress.name}}"</h4>
-        destination name
-        <form ng-submit="mapCtrl.findByPlaceName()">
-          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalLatLng.name">
-        </form>
-      </div>
-
-
-
 
       <div class="btns">
         <button ng-if="mapCtrl.finalLatLng.name" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
