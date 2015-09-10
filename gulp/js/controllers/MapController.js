@@ -199,6 +199,8 @@
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
       var latVel=Math.sin(rad);
       var lngVel=Math.cos(rad);
+      var created_at=new Date(Date.now());
+      var arrived_at=new Date(Date.now()+Math.abs(latDif/latVel*100000*1000));
 
       var Balloon = {
         name: vm.finalLatLng.name,
@@ -210,7 +212,9 @@
         endLat: vm.finalLatLng.lat,
         endLng: vm.finalLatLng.lng,
         latVel: latVel,
-        lngVel: lngVel
+        lngVel: lngVel,
+        created_at: created_at,
+        arrived_at: arrived_at
       };
 
       $http.post("api/balloons",Balloon)

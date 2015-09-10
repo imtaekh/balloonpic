@@ -10,10 +10,10 @@ var BalloonSchema = mongoose.Schema({
   lng: {type:Number, required:true},
   endLat: {type:Number, required:true},
   endLng: {type:Number, required:true},
-  latVel: {type:Number},
-  lngVel: {type:Number},
-  created_at:{type:Date,default:Date.now},
-  arrived_at:{type:Date,default:null}
+  latVel: {type:Number, required:true},
+  lngVel: {type:Number, required:true},
+  created_at:{type:Date, required:true},
+  arrived_at:{type:Date, required:true}
 });
 
 module.exports = mongoose.model("Balloon",BalloonSchema);

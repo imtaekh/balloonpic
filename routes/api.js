@@ -18,6 +18,7 @@ router.route('/balloons')
     console.log(req.body);
     Balloon.create(req.body,function (err,balloon) {
       if(err) return res.json({success:false, message:err});
+      console.log(err);
       res.json({success:true, data:balloon});
     });
   });
