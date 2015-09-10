@@ -281,26 +281,26 @@
 
 
 
-      // setInterval( function(){
-      //   vm.markers.forEach(function (marker) {
-      //     var change = false;
-      //     if(marker.latVel>0 && marker.endLat>marker.lat){
-      //       marker.lat += marker.latVel;
-      //       change = true;
-      //     } else if(marker.latVel<0 && marker.endLat<marker.lat){
-      //       marker.lat += marker.latVel;
-      //       change = true;
-      //     }
-      //     if(marker.lngVel>0 && marker.endLng>marker.lng){
-      //       marker.lng += marker.lngVel;
-      //       change = true;
-      //     } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-      //       marker.lng += marker.lngVel;
-      //       change = true;
-      //     }
-      //     if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
-      //   });
-      // }, 100 );
+      setInterval( function(){
+        vm.markers.forEach(function (marker) {
+          var change = false;
+          if(marker.latVel>0 && marker.endLat>marker.lat){
+            marker.lat += marker.latVel;
+            change = true;
+          } else if(marker.latVel<0 && marker.endLat<marker.lat){
+            marker.lat += marker.latVel;
+            change = true;
+          }
+          if(marker.lngVel>0 && marker.endLng>marker.lng){
+            marker.lng += marker.lngVel;
+            change = true;
+          } else if(marker.lngVel<0 && marker.endLng<marker.lng){
+            marker.lng += marker.lngVel;
+            change = true;
+          }
+          if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
+        });
+      }, 100 );
 
     };
 
