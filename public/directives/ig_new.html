@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="row" ng-if="mapCtrl.igNewPic">
-      <p class="steps"> Step2. set it's destination</p>
+      <p class="steps"> Step2. find the destination</p>
 
       <div ng-if="!mapCtrl.selectedAddress.formatted_address">
-        city or full address
+        City name or full address
         <form ng-submit="mapCtrl.findByAddress()">
           <input type="text" id="address" class="form-control text" ng-model="mapCtrl.locationAddress">
           <input type="submit" class="btn btn-success" value="find">
@@ -19,13 +19,13 @@
           <select ng-model="mapCtrl.selectedAddress" ng-options="address.formatted_address for address in mapCtrl.locationAddressSearchResults" ng-change="mapCtrl.selectAddress()" class="form-control"></select>
         </div>
         <div ng-if="mapCtrl.locationAddressSearchResults&&mapCtrl.locationAddressSearchResults.length==0">
-          <p>no results</p>
+          <p>No results! please search other keyword.</p>
         </div>
       </div>
 
       <div ng-if="mapCtrl.selectedAddress.formatted_address">
         <h4>"{{mapCtrl.selectedAddress.formatted_address}}"</h4>
-        name of place(optional)
+        Find a place in this area (optional)
         <form ng-submit="mapCtrl.findByPlaceName()">
           <input type="text" id="address" class="form-control text" ng-model="mapCtrl.placeName">
           <input type="submit" class="btn btn-success" value="find">
@@ -34,11 +34,9 @@
           <select ng-model="mapCtrl.selectedPlaceName" ng-options="placeName.name for placeName in mapCtrl.placeNameSearchResults" ng-change="mapCtrl.selectPlaceName()" class="form-control"></select>
         </div>
         <div ng-if="mapCtrl.placeNameSearchResults&&mapCtrl.placeNameSearchResults.length==0">
-          <p>
-            no results
-          </p>
+          <p>No results! please search other keyword.</p>
         </div>
-        destination name
+        Destination name (required)
         <form ng-submit="mapCtrl.findByPlaceName()">
           <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalDestination.name">
         </form>

@@ -146,12 +146,50 @@
         Auth.logout();
       });
     };
+    vm.generateDestinationMarker = function (title,address) {
+      var content="<h4>"+title+"</h4>";
+      if(address){
+        content+="<h5>"+address+"</h5>";
+      }
+      vm.finalDestination.infowindow = new google.maps.InfoWindow({
+        content: content
+      });
+      if(vm.finalDestination.marker){
+        vm.finalDestination.marker.setMap(null);
+      }
+      vm.finalDestination.marker = new google.maps.Marker({
+                                      position: new google.maps.LatLng(vm.finalDestination.lat, vm.finalDestination.lng),
+                                      title: title
+                                    });
+      vm.finalDestination.marker.setMap(vm.map);
+      vm.finalDestination.infowindow.open(vm.map, vm.finalDestination.marker);
+    }
     vm.selectedAddress = {};
     vm.selectAddress = function () {
+
       vm.finalDestination.lat=vm.selectedAddress.geometry.location.lat;
       vm.finalDestination.lng=vm.selectedAddress.geometry.location.lng;
 
+      vm.generateDestinationMarker(vm.selectedAddress.formatted_address);
 
+      //address triming//
+      vm.selectedAddress.address_components.forEach(function (component) {
+        var pass = false;
+        component.types.forEach(function (type) {
+          if(type=="political"){
+            pass = true;
+          }
+        });
+        if(!pass){
+          var add = vm.selectedAddress.formatted_address ;
+          add = add.replace(component.long_name,"");
+          add = add.replace(component.short_name,"");
+          vm.selectedAddress.formatted_address = add;
+        }
+      });
+      vm.selectedAddress.formatted_address = vm.selectedAddress.formatted_address.split(",").map(function(el){return el.trim()}).filter(function(el){ return el!="";}).join(", ");
+      vm.finalDestination.name = vm.selectedAddress.formatted_address;
+      /////////////////
       google.maps.event.trigger(map, "resize");
       vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
       vm.map.setZoom(14);
@@ -162,14 +200,14 @@
     vm.findByPlaceName=function () {
       $http.get("api/find_location_by_place_name",{
         params:{
-          lat:vm.finalDestination.lat,
-          lng:vm.finalDestination.lng,
+          lat:vm.selectedAddress.geometry.location.lat,
+          lng:vm.selectedAddress.geometry.location.lng,
           placename: vm.placeName
         }
       }).success(function (data) {
         if(data.success){
           vm.placeNameSearchResults=data.data.results;
-          console.log(vm.placeNameSearchResults);
+          // console.log(vm.placeNameSearchResults);
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -181,26 +219,16 @@
     };
     vm.selectedPlaceName ={};
     vm.selectPlaceName = function () {
-      vm.finalDestination.lat=vm.selectedPlaceName.geometry.location.lat;
-      vm.finalDestination.lng=vm.selectedPlaceName.geometry.location.lng;
-      vm.finalDestination.name=vm.selectedPlaceName.name;
+      if(vm.selectedPlaceName){
+        vm.finalDestination.lat=vm.selectedPlaceName.geometry.location.lat;
+        vm.finalDestination.lng=vm.selectedPlaceName.geometry.location.lng;
+        vm.finalDestination.name=vm.selectedPlaceName.name;
 
-      google.maps.event.trigger(map, "resize");
-      vm.selectedPlaceName.infowindow = new google.maps.InfoWindow({
-        content: vm.selectedPlaceName.name
-      });
-      if(vm.finalDestination.marker){
-        vm.finalDestination.marker.setMap(null);
+        google.maps.event.trigger(map, "resize");
+        vm.generateDestinationMarker(vm.selectedPlaceName.name, vm.selectedPlaceName.vicinity);
+        vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
+        vm.map.setZoom(16);
       }
-      vm.finalDestination.marker = new google.maps.Marker({
-                                      position: new google.maps.LatLng(vm.finalDestination.lat, vm.finalDestination.lng),
-                                      title: vm.selectedPlaceName.name
-                                    });
-      vm.finalDestination.marker.setMap(vm.map);
-      vm.selectedPlaceName.infowindow.open(vm.map, vm.finalDestination.marker);
-      vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
-      vm.map.setZoom(16);
-
     };
     vm.igShowDone=false;
     vm.confirm=function () {
