@@ -197,8 +197,8 @@
       var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
       var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
-      var latVel=Math.sin(rad)*0.001;
-      var lngVel=Math.cos(rad)*0.001;
+      var latVel=Math.sin(rad);
+      var lngVel=Math.cos(rad);
 
       var Balloon = {
         name: vm.finalLatLng.name,
@@ -234,7 +234,7 @@
     };
 
     vm.generateMarker=function (markerObj) {
-      markerObj.marker = new google.maps.Marker({
+      var newMarker = new google.maps.Marker({
                           position: new google.maps.LatLng(markerObj.lat, markerObj.lng),
                           title: markerObj.name,
                           igId: markerObj.igId,
@@ -246,12 +246,31 @@
                                   new google.maps.Size(50, 50)
                                 )
                       });
-      markerObj.marker.setMap(vm.map);
-      var newMarker=markerObj.marker;
       vm.oms.addListener('click', function(newMarker, event) {
         vm.igShow(newMarker);
       });
+      vm.oms.addListener('spiderfy', function(newMarker, event) {
+        vm.markers.forEach(function (marker) {
+          newMarker.forEach(function (target) {
+            if(marker.igId==target.igId){
+              marker.stop=true;
+            }
+          });
+        });
+      });
+      vm.oms.addListener('unspiderfy', function(newMarker, event) {
+        vm.markers.forEach(function (marker) {
+          newMarker.forEach(function (target) {
+            if(marker.igId==target.igId){
+              marker.stop=false;
+            }
+          });
+        });
+        console.log("event");
+      });
       vm.oms.addMarker(newMarker);
+      markerObj.marker = newMarker;
+      markerObj.marker.setMap(vm.map);
     };
 
     vm.markers=[];
@@ -283,24 +302,26 @@
 
       setInterval( function(){
         vm.markers.forEach(function (marker) {
-          var change = false;
-          if(marker.latVel>0 && marker.endLat>marker.lat){
-            marker.lat += marker.latVel;
-            change = true;
-          } else if(marker.latVel<0 && marker.endLat<marker.lat){
-            marker.lat += marker.latVel;
-            change = true;
+          if(!marker.stop){
+            var change = false;
+            if(marker.latVel>0 && marker.endLat>marker.lat){
+              marker.lat += marker.latVel*0.00001;
+              change = true;
+            } else if(marker.latVel<0 && marker.endLat<marker.lat){
+              marker.lat += marker.latVel*0.00001;
+              change = true;
+            }
+            if(marker.lngVel>0 && marker.endLng>marker.lng){
+              marker.lng += marker.lngVel*0.00001;
+              change = true;
+            } else if(marker.lngVel<0 && marker.endLng<marker.lng){
+              marker.lng += marker.lngVel*0.00001;
+              change = true;
+            }
+            if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
           }
-          if(marker.lngVel>0 && marker.endLng>marker.lng){
-            marker.lng += marker.lngVel;
-            change = true;
-          } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-            marker.lng += marker.lngVel;
-            change = true;
-          }
-          if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
         });
-      }, 100 );
+      }, 1000 );
 
     };
 
