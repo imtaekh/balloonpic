@@ -19,10 +19,76 @@
       },1000);
     };
     vm.igShowIsRunning=false;
+    vm.igShowDetailToggle=function () {
+      if(vm.igPic.detailClass=="detail_inactive"){
+        vm.igPic.detailClass="detail_active";
+        vm.igPic.detailBtnClass="hidden";
+      } else {
+        vm.igPic.detailClass="detail_inactive";
+        vm.igPic.detailBtnClass="btn btn-default btn-detail";
+      }
+    };
+    vm.formatDate=function (date) {
+      var month =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return ((date.getHours().toString().length==1)?("0"+date.getHours()):(date.getHours()))+":"+
+                ((date.getMinutes().toString().length==1)?("0"+date.getMinutes()):(date.getMinutes()))+" "+
+                month[date.getMonth()]+" "+
+                ((date.getDate().toString().length==1)?("0"+date.getDate()):(date.getDate()))+", "+
+                date.getFullYear();
+    };
+    vm.formatDuration=function (milisec) {
+      var seconds = parseInt(milisec/1000);
+
+      var days = 0;
+      var hours = 0;
+      var mins = 0;
+      var result = "";
+      if (seconds > 60*60*24){
+        days = parseInt(seconds/(60*60*24));
+        seconds -= (60*60*24)*days;
+        result += days+" days ";
+      }
+      if (seconds > 60*60){
+        hours = parseInt(seconds/(60*60));
+        seconds -= (60*60)*hours;
+        result += hours+" hours ";
+      }
+      if (seconds > 60) {
+        mins = parseInt(seconds/60);
+        seconds -= 60*mins;
+        result += mins+" mins ";
+      }
+      result += seconds+" secs";
+      return result;
+    };
     vm.igShow = function(marker){
       if(vm.igShowIsRunning) return;
       vm.igShowIsRunning=true;
       vm.igPic.balloon=marker;
+
+      var now = Date.now();
+
+      vm.igPic.created_at=vm.formatDate(new Date(vm.igPic.balloon.data.created_at));
+      vm.igPic.arrived_at=vm.formatDate(new Date(vm.igPic.balloon.data.arrived_at));
+      if(marker.data.arrived_at > now){
+        vm.igPic.status="Flying to";
+        vm.igPic.arrived=false;
+        vm.igPic.travelTime=vm.formatDuration(now-vm.igPic.balloon.data.created_at);
+      } else {
+        vm.igPic.status="Arrived at";
+        vm.igPic.arrived=true;
+        vm.igPic.travelTime=vm.formatDuration(vm.igPic.balloon.data.arrived_at-vm.igPic.balloon.data.created_at);
+      }
+      vm.igPic.detailClass="detail_inactive";
+      vm.igPic.detailBtnClass="btn btn-default btn-detail";
+
+
+
+
+
+
+
+
       $http.get("api/show_ig",{
         params:{
           igid:marker.igId
@@ -44,6 +110,7 @@
             document.querySelector('#side').className="side_active";
           }
           vm.igShowIsRunning=false;
+
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -318,6 +385,7 @@
       });
       vm.oms.addMarker(newMarker);
       balloon.marker = newMarker;
+      balloon.marker.data = balloon;
       balloon.marker.setMap(vm.map);
     };
 
@@ -351,6 +419,13 @@
 
       vm.updateBalloons = setInterval( function(){
         var now = Date.now();
+
+        if(vm.igPic.arrived===false){
+          vm.igPic.travelTime=vm.formatDuration(now-vm.igPic.balloon.data.created_at);
+          // console.log(vm.igPic.travelTime);
+          document.querySelector("#liveTravelingTime").innerText=vm.igPic.travelTime;
+        }
+
 
         vm.balloons.forEach(function (balloon) {
 

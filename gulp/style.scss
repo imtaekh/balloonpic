@@ -161,6 +161,17 @@ html, body{
   }
 }
 .ng_show{
+  .detail_inactive{
+    display: none;
+  }
+  .detail_active{
+    text-align: left;
+    padding: 10px;
+  }
+  .btn-detail{
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
   .title{
     padding-left: 15px;
     padding-right: 15px;
@@ -176,6 +187,7 @@ html, body{
     margin:0;
   }
   .profile_div{
+    margin-top: 10px;
     border-top: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
     background-color: #F9f9f9;

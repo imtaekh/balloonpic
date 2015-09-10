@@ -1,6 +1,21 @@
 <div class="map_left_tmp ng_show">
   <div class="text-center">
-    <h4 class ="title">Flying to "{{mapCtrl.igPic.balloon.title}}"</h4>
+    <h4 class ="title">{{mapCtrl.igPic.status}} "{{mapCtrl.igPic.balloon.title}}"</h4>
+      <div ng-class="mapCtrl.igPic.detailBtnClass" ng-click="mapCtrl.igShowDetailToggle()">
+        See balloon details
+      </div>
+      <div ng-class="mapCtrl.igPic.detailClass">
+        <p><label>Created at</label> {{mapCtrl.igPic.created_at}}</p>
+        <p ng-if="!mapCtrl.igPic.arrived"><label>Flying for</label> <span id="liveTravelingTime">{{mapCtrl.igPic.travelTime}}<span></p>
+        <p ng-if="mapCtrl.igPic.arrived"><label>Arrived at</label> {{mapCtrl.igPic.arrived_at}}</p>
+        <p ng-if="mapCtrl.igPic.arrived"><label>Flew for</label> {{mapCtrl.igPic.travelTime}}</p>
+
+      <div class="text-center">
+        <div class="btn btn-default btn-detail" ng-click="mapCtrl.igShowDetailToggle()">
+          Close details
+        </div>
+      </div>
+      </div>
   </div>
   <div class="row no-margin profile_div">
     <div class="col-xs-2 no-padding text-center">
@@ -23,7 +38,7 @@
         <h5>{{comment.from.username}}</h5> {{comment.text}}
       </div>
       <div class="col-xs-12 text-center">
-        <a ng-href="{{mapCtrl.igPic.ig.link}}" target="_blank"class="btn btn-primary ig_btn">view on Instagram</a>
+        <a ng-href="{{mapCtrl.igPic.ig.link}}" target="_blank"class="btn btn-primary ig_btn">View on Instagram</a>
       </div>
     </div>
   </div>
