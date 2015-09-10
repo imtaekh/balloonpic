@@ -237,13 +237,20 @@
       });
     };
 
-    vm.generateMarker=function (balloonObj) {
+    vm.generateMarker=function (balloon,now) {
+      if(now < balloon.arrived_at){
+        balloon.curLat = balloon.lat + (balloon.endLat - balloon.lat) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
+        balloon.curLng = balloon.lng + (balloon.endLng - balloon.lng) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
+      } else {
+        balloon.curLat = balloon.endLat;
+        balloon.curLng = balloon.endLng;
+      }
       var newMarker = new google.maps.Marker({
-                          position: new google.maps.LatLng(balloonObj.endLat, balloonObj.endLng),
-                          title: balloonObj.name,
-                          igId: balloonObj.igId,
+                          position: new google.maps.LatLng(balloon.curLat, balloon.curLng),
+                          title: balloon.name,
+                          igId: balloon.igId,
                           icon: new google.maps.MarkerImage(
-                                  balloonObj.igImage,
+                                  balloon.igImage,
                                   null, /* size is determined at runtime */
                                   null, /* origin is 0,0 */
                                   null, /* anchor is bottom center of the scaled image */
@@ -254,26 +261,26 @@
         vm.igShow(newMarker);
       });
       vm.oms.addListener('spiderfy', function(newMarker, event) {
-        vm.balloons.forEach(function (balloon) {
+        vm.balloons.forEach(function (eachBalloon) {
           newMarker.forEach(function (marker) {
-            if(balloon.igId==marker.igId){
-              balloon.stop=true;
+            if(eachBalloon.igId==marker.igId){
+              eachBalloon.stop=true;
             }
           });
         });
       });
       vm.oms.addListener('unspiderfy', function(newMarker, event) {
-        vm.balloons.forEach(function (balloon) {
+        vm.balloons.forEach(function (eachBalloon) {
           newMarker.forEach(function (marker) {
-            if(balloon.igId==marker.igId){
-              balloon.stop=false;
+            if(eachBalloon.igId==marker.igId){
+              eachBalloon.stop=false;
             }
           });
         });
       });
       vm.oms.addMarker(newMarker);
-      balloonObj.marker = newMarker;
-      balloonObj.marker.setMap(vm.map);
+      balloon.marker = newMarker;
+      balloon.marker.setMap(vm.map);
     };
 
     vm.balloons=[];
@@ -297,8 +304,9 @@
       vm.map.setMapTypeId('map_style');
       vm.oms = new OverlappingMarkerSpiderfier(vm.map, {circleFootSeparation: 46, spiralFootSeparation: 52});
 
+      var now = Date.now();
       vm.balloons.forEach(function (balloon) {
-        vm.generateMarker(balloon);
+        vm.generateMarker(balloon, now);
       });
 
 
@@ -307,23 +315,12 @@
         var now = Date.now();
 
         vm.balloons.forEach(function (balloon) {
-          var created_at = balloon.created_at;
-          var arrived_at = balloon.arrived_at;
-          // console.log(now, created_at,arrived_at);
 
-          if(!balloon.stop && now < arrived_at){
-            
-            if(balloon.latVel>0 && balloon.endLat>balloon.lat){
-              balloon.lat += balloon.latVel*0.00001;
-            } else if(balloon.latVel<0 && balloon.endLat<balloon.lat){
-              balloon.lat += balloon.latVel*0.00001;
-            }
-            if(balloon.lngVel>0 && balloon.endLng>balloon.lng){
-              balloon.lng += balloon.lngVel*0.00001;
-            } else if(balloon.lngVel<0 && balloon.endLng<balloon.lng){
-              balloon.lng += balloon.lngVel*0.00001;
-            }
-            balloon.marker.setPosition( new google.maps.LatLng(balloon.lat, balloon.lng) );
+          if(!balloon.stop && now < balloon.arrived_at){
+
+            balloon.curLat = balloon.lat + (balloon.endLat - balloon.lat) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
+            balloon.curLng = balloon.lng + (balloon.endLng - balloon.lng) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
+            balloon.marker.setPosition( new google.maps.LatLng(balloon.curLat, balloon.curLng) );
           }
         });
       }, 1000 );
