@@ -12,8 +12,8 @@ var BalloonSchema = mongoose.Schema({
   endLng: {type:Number, required:true},
   latVel: {type:Number, required:true},
   lngVel: {type:Number, required:true},
-  created_at:{type:Date, required:true},
-  arrived_at:{type:Date, required:true}
+  created_at:{type:Number, required:true},
+  arrived_at:{type:Number, required:true}
 });
 
 module.exports = mongoose.model("Balloon",BalloonSchema);

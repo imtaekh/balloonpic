@@ -3,9 +3,9 @@
   angular.module("MapController",[])
     .controller("MapController",MapController);
 
-  MapController.$inject=["$http","$window","Auth"];
+  MapController.$inject=["$scope","$http","$window","Auth"];
 
-  function MapController($http,$window,Auth){
+  function MapController($scope,$http,$window,Auth){
     var vm = this;
     vm.leftPanel="";
     vm.myIgPics =[];
@@ -199,8 +199,8 @@
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
       var latVel=Math.sin(rad);
       var lngVel=Math.cos(rad);
-      var created_at=new Date(Date.now());
-      var arrived_at=new Date(Date.now()+Math.abs(latDif/latVel*100000*1000));
+      var created_at=Date.now();
+      var arrived_at=parseInt(created_at+Math.abs(latDif/latVel*100000*1000));
 
       var Balloon = {
         name: vm.finalLatLng.name,
@@ -239,7 +239,7 @@
 
     vm.generateMarker=function (balloonObj) {
       var newMarker = new google.maps.Marker({
-                          position: new google.maps.LatLng(balloonObj.lat, balloonObj.lng),
+                          position: new google.maps.LatLng(balloonObj.endLat, balloonObj.endLng),
                           title: balloonObj.name,
                           igId: balloonObj.igId,
                           icon: new google.maps.MarkerImage(
@@ -303,28 +303,27 @@
 
 
 
-      setInterval( function(){
-        var now = new Date(Date.now());
+      vm.updateBalloons = setInterval( function(){
+        var now = Date.now();
 
         vm.balloons.forEach(function (balloon) {
+          var created_at = balloon.created_at;
+          var arrived_at = balloon.arrived_at;
+          // console.log(now, created_at,arrived_at);
 
-          if(!balloon.stop){
-            var change = false;
+          if(!balloon.stop && now < arrived_at){
+            
             if(balloon.latVel>0 && balloon.endLat>balloon.lat){
               balloon.lat += balloon.latVel*0.00001;
-              change = true;
             } else if(balloon.latVel<0 && balloon.endLat<balloon.lat){
               balloon.lat += balloon.latVel*0.00001;
-              change = true;
             }
             if(balloon.lngVel>0 && balloon.endLng>balloon.lng){
               balloon.lng += balloon.lngVel*0.00001;
-              change = true;
             } else if(balloon.lngVel<0 && balloon.endLng<balloon.lng){
               balloon.lng += balloon.lngVel*0.00001;
-              change = true;
             }
-            if(change) balloon.marker.setPosition( new google.maps.LatLng(balloon.lat, balloon.lng) );
+            balloon.marker.setPosition( new google.maps.LatLng(balloon.lat, balloon.lng) );
           }
         });
       }, 1000 );
@@ -358,6 +357,8 @@
     //   }
     // );
 
-
+    $scope.$on("$destroy", function(){
+       clearInterval(vm.updateBalloons);
+   });
   }
 }());
