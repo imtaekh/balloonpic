@@ -100,12 +100,12 @@
       vm.unSelectPic();
       vm.finalLatLng={};
       vm.locationAddress = "";
-      vm.locationAddressId = "";
       vm.locationAddressSearchResults = "";
+      vm.selectedAddressId = "";
       vm.selectedAddress = {};
       vm.placeName = "";
-      vm.placeNameId = "";
       vm.placeNameSearchResults= "";
+      vm.selectedPlaceNameId = "";
       vm.selectedPlaceName = {};
       vm.igShowDone=false;
     };
