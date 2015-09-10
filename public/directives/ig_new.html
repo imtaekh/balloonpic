@@ -9,17 +9,15 @@
     <div class="row" ng-if="mapCtrl.igNewPic">
       <p class="steps"> Step2. set it's destination</p>
 
-      <div ng-if="!mapCtrl.selectedAddress.name">
+      <div ng-if="!mapCtrl.selectedAddress.formatted_address">
         city or full address
         <form ng-submit="mapCtrl.findByAddress()">
           <input type="text" id="address" class="form-control text" ng-model="mapCtrl.locationAddress">
           <input type="submit" class="btn btn-success" value="find">
         </form>
         <div ng-if="mapCtrl.locationAddressSearchResults">
-          <select ng-model="mapCtrl.selectedAddressId" ng-change="mapCtrl.selectAddress()" class="form-control">
-            <option ng-repeat="address in mapCtrl.locationAddressSearchResults" value="{{address.place_id}}" id="address_{{address.place_id}}" data-lat="{{address.geometry.location.lat}}" data-lng="{{address.geometry.location.lng}}" data-name="{{address.formatted_address}}">
-              {{address.formatted_address}}
-            </option>
+          <select ng-model="mapCtrl.selectedAddress" ng-options="address.formatted_address for address in mapCtrl.locationAddressSearchResults" ng-change="mapCtrl.selectAddress()" class="form-control">
+
           </select>
         </div>
         <div ng-if="mapCtrl.locationAddressSearchResults&&mapCtrl.locationAddressSearchResults.length==0">
@@ -29,8 +27,8 @@
         </div>
       </div>
 
-      <div ng-if="mapCtrl.selectedAddress.name">
-        <h4>"{{mapCtrl.selectedAddress.name}}"</h4>
+      <div ng-if="mapCtrl.selectedAddress.formatted_address">
+        <h4>"{{mapCtrl.selectedAddress.formatted_address}}"</h4>
         name of place(optional)
         <form ng-submit="mapCtrl.findByPlaceName()">
           <input type="text" id="address" class="form-control text" ng-model="mapCtrl.placeName">

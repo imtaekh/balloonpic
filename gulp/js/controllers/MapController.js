@@ -141,7 +141,7 @@
       }).success(function (data) {
         if(data.success){
           vm.locationAddressSearchResults=data.data;
-          console.log(data.data);
+          // console.log(data.data);
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -152,24 +152,25 @@
       });
     };
     vm.selectedAddress = {};
-    vm.selectAddress = function (id) {
-      var address =document.getElementById("address_"+vm.selectedAddressId);
-      vm.selectedAddress.name=address.dataset.name;
-      vm.selectedAddress.lat=address.dataset.lat;
-      vm.selectedAddress.lng=address.dataset.lng;
-      vm.finalLatLng.lat=address.dataset.lat;
-      vm.finalLatLng.lng=address.dataset.lng;
+    vm.selectAddress = function () {
+      console.log(vm.selectedAddress);
+
+      vm.selectedAddress.name=address.formatted_address;
+      vm.finalLatLng.lat=vm.selectedAddress.geometry.location.lat;
+      vm.finalLatLng.lng=vm.selectedAddress.geometry.location.lng;
+
       google.maps.event.trigger(map, "resize");
       vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
       vm.map.setZoom(14);
     };
+
     vm.placeName = "";
     vm.placeNameSearchResults= "";
     vm.findByPlaceName=function () {
       $http.get("api/find_location_by_place_name",{
         params:{
-          lat:vm.selectedAddress.lat,
-          lng:vm.selectedAddress.lng,
+          lat:vm.finalLatLng.lat,
+          lng:vm.finalLatLng.lng,
           placename: vm.placeName
         }
       }).success(function (data) {
@@ -351,7 +352,7 @@
 
 
     $http.get("api/balloons").success(function (data) {
-      console.log(data.data);
+      // console.log(data.data);
       if(data.success){
         vm.balloons = data.data;
         mapInit(vm.centerLatLng.lat,vm.centerLatLng.lng,12);
