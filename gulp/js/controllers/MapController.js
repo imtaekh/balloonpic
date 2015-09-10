@@ -30,7 +30,6 @@
       }).success(function (data) {
         if(data.success){
           vm.igPic.ig = data.data;
-          console.log(vm.igPic);
           if(vm.leftPanel==vm.igPic.ig.id){
             vm.closeLeftPanel();
           } else if(vm.leftPanel=="igNew"){
@@ -104,10 +103,10 @@
       vm.placeName = "";
       vm.placeNameSearchResults= "";
       vm.selectedPlaceName = {};
-      if(vm.finalLatLng.marker){
-        vm.finalLatLng.marker.setMap(null);
+      if(vm.finalDestination.marker){
+        vm.finalDestination.marker.setMap(null);
       }
-      vm.finalLatLng={};
+      vm.finalDestination={};
       vm.igShowDone=false;
     };
     vm.igNewPic = undefined;
@@ -126,7 +125,7 @@
       }
     };
 
-    vm.finalLatLng={};
+    vm.finalDestination={};
     vm.locationAddress = "";
     vm.locationAddressSearchResults = "";
     vm.findByAddress = function () {
@@ -149,12 +148,12 @@
     };
     vm.selectedAddress = {};
     vm.selectAddress = function () {
-      vm.finalLatLng.lat=vm.selectedAddress.geometry.location.lat;
-      vm.finalLatLng.lng=vm.selectedAddress.geometry.location.lng;
+      vm.finalDestination.lat=vm.selectedAddress.geometry.location.lat;
+      vm.finalDestination.lng=vm.selectedAddress.geometry.location.lng;
 
 
       google.maps.event.trigger(map, "resize");
-      vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
+      vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
       vm.map.setZoom(14);
     };
 
@@ -163,8 +162,8 @@
     vm.findByPlaceName=function () {
       $http.get("api/find_location_by_place_name",{
         params:{
-          lat:vm.finalLatLng.lat,
-          lng:vm.finalLatLng.lng,
+          lat:vm.finalDestination.lat,
+          lng:vm.finalDestination.lng,
           placename: vm.placeName
         }
       }).success(function (data) {
@@ -182,33 +181,32 @@
     };
     vm.selectedPlaceName ={};
     vm.selectPlaceName = function () {
-      vm.finalLatLng.lat=vm.selectedPlaceName.geometry.location.lat;
-      vm.finalLatLng.lng=vm.selectedPlaceName.geometry.location.lng;
-      vm.finalLatLng.name=vm.selectedPlaceName.name;
+      vm.finalDestination.lat=vm.selectedPlaceName.geometry.location.lat;
+      vm.finalDestination.lng=vm.selectedPlaceName.geometry.location.lng;
+      vm.finalDestination.name=vm.selectedPlaceName.name;
 
       google.maps.event.trigger(map, "resize");
       vm.selectedPlaceName.infowindow = new google.maps.InfoWindow({
         content: vm.selectedPlaceName.name
       });
-      if(vm.finalLatLng.marker){
-        vm.finalLatLng.marker.setMap(null);
-        console.log("???");
+      if(vm.finalDestination.marker){
+        vm.finalDestination.marker.setMap(null);
       }
-      vm.finalLatLng.marker = new google.maps.Marker({
-                                      position: new google.maps.LatLng(vm.finalLatLng.lat, vm.finalLatLng.lng),
+      vm.finalDestination.marker = new google.maps.Marker({
+                                      position: new google.maps.LatLng(vm.finalDestination.lat, vm.finalDestination.lng),
                                       title: vm.selectedPlaceName.name
                                     });
-      vm.finalLatLng.marker.setMap(vm.map);
-      vm.selectedPlaceName.infowindow.open(vm.map, vm.finalLatLng.marker);
-      vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
+      vm.finalDestination.marker.setMap(vm.map);
+      vm.selectedPlaceName.infowindow.open(vm.map, vm.finalDestination.marker);
+      vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
       vm.map.setZoom(16);
 
     };
     vm.igShowDone=false;
     vm.confirm=function () {
-      vm.finalLatLng.marker.setMap(null);
-      var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
-      var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
+      vm.finalDestination.marker.setMap(null);
+      var latDif = vm.finalDestination.lat-vm.centerLatLng.lat;
+      var lngDif = vm.finalDestination.lng-vm.centerLatLng.lng;
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
       var latVel=Math.sin(rad);
       var lngVel=Math.cos(rad);
@@ -216,14 +214,14 @@
       var arrived_at=parseInt(created_at+Math.abs(latDif/latVel*100000*1000));
 
       var Balloon = {
-        name: vm.finalLatLng.name,
+        name: vm.finalDestination.name,
         igId: vm.igNewPic.id,
         igImage: vm.igNewPic.image,
         igLink: vm.igNewPic.link,
         lat: vm.centerLatLng.lat,
         lng: vm.centerLatLng.lng,
-        endLat: vm.finalLatLng.lat,
-        endLng: vm.finalLatLng.lng,
+        endLat: vm.finalDestination.lat,
+        endLng: vm.finalDestination.lng,
         latVel: latVel,
         lngVel: lngVel,
         created_at: created_at,
@@ -233,7 +231,6 @@
       $http.post("api/balloons",Balloon)
       .success(function (data) {
         if(data.success){
-          console.log(data.data);
           vm.balloons.push(data.data);
           vm.generateMarker(vm.balloons[vm.balloons.length-1]);
 

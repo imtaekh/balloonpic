@@ -40,12 +40,12 @@
         </div>
         destination name
         <form ng-submit="mapCtrl.findByPlaceName()">
-          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalLatLng.name">
+          <input type="text" id="address" class="form-control destination" ng-model="mapCtrl.finalDestination.name">
         </form>
       </div>
 
       <div class="btns">
-        <button ng-if="mapCtrl.finalLatLng.name" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
+        <button ng-if="mapCtrl.finalDestination.name" ng-click="mapCtrl.confirm()" class="btn btn-success">Confirm</button>
         <button ng-click="mapCtrl.startOver()" class="btn btn-danger">Start Over</button>
       </div>
     </div>
