@@ -15,15 +15,11 @@
           <input type="text" id="address" class="form-control text" ng-model="mapCtrl.locationAddress">
           <input type="submit" class="btn btn-success" value="find">
         </form>
-        <div ng-if="mapCtrl.locationAddressSearchResults">
-          <select ng-model="mapCtrl.selectedAddress" ng-options="address.formatted_address for address in mapCtrl.locationAddressSearchResults" ng-change="mapCtrl.selectAddress()" class="form-control">
-
-          </select>
+        <div ng-if="mapCtrl.locationAddressSearchResults.length">
+          <select ng-model="mapCtrl.selectedAddress" ng-options="address.formatted_address for address in mapCtrl.locationAddressSearchResults" ng-change="mapCtrl.selectAddress()" class="form-control"></select>
         </div>
         <div ng-if="mapCtrl.locationAddressSearchResults&&mapCtrl.locationAddressSearchResults.length==0">
-          <p>
-            no results
-          </p>
+          <p>no results</p>
         </div>
       </div>
 
@@ -35,11 +31,7 @@
           <input type="submit" class="btn btn-success" value="find">
         </form>
         <div ng-if="mapCtrl.placeNameSearchResults.length">
-          <select ng-model="mapCtrl.selectedPlaceNameId" ng-change="mapCtrl.selectPlaceName()" class="form-control">
-            <option ng-repeat="placeName in mapCtrl.placeNameSearchResults" value="{{placeName.place_id}}" id="place_{{placeName.place_id}}" data-lat="{{placeName.geometry.location.lat}}" data-lng="{{placeName.geometry.location.lng}}" data-name="{{placeName.name}}">
-              {{placeName.name}}
-            </option>
-          </select>
+          <select ng-model="mapCtrl.selectedPlaceName" ng-options="placeName.name for placeName in mapCtrl.placeNameSearchResults" ng-change="mapCtrl.selectPlaceName()" class="form-control"></select>
         </div>
         <div ng-if="mapCtrl.placeNameSearchResults&&mapCtrl.placeNameSearchResults.length==0">
           <p>

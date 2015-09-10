@@ -101,15 +101,15 @@
       vm.finalLatLng={};
       vm.locationAddress = "";
       vm.locationAddressSearchResults = "";
-      vm.selectedAddressId = "";
       vm.selectedAddress = {};
       vm.placeName = "";
       vm.placeNameSearchResults= "";
-      vm.selectedPlaceNameId = "";
+      vm.selectedPlaceName = {};
+
+
       if(vm.selectedPlaceName.marker){
         vm.selectedPlaceName.marker.setMap(null);
       }
-      vm.selectedPlaceName = {};
       vm.igShowDone=false;
     };
     vm.igNewPic = undefined;
@@ -153,9 +153,6 @@
     };
     vm.selectedAddress = {};
     vm.selectAddress = function () {
-      console.log(vm.selectedAddress);
-
-      vm.selectedAddress.name=address.formatted_address;
       vm.finalLatLng.lat=vm.selectedAddress.geometry.location.lat;
       vm.finalLatLng.lng=vm.selectedAddress.geometry.location.lng;
 
@@ -176,6 +173,7 @@
       }).success(function (data) {
         if(data.success){
           vm.placeNameSearchResults=data.data.results;
+          console.log(vm.placeNameSearchResults);
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -187,18 +185,11 @@
     };
     vm.selectedPlaceName ={};
     vm.selectPlaceName = function () {
-      var placeName =document.getElementById("place_"+vm.selectedPlaceNameId);
-      vm.selectedPlaceName.name=placeName.dataset.name;
-      vm.selectedPlaceName.lat=placeName.dataset.lat;
-      vm.selectedPlaceName.lng=placeName.dataset.lng;
-      vm.finalLatLng.lat=placeName.dataset.lat;
-      vm.finalLatLng.lng=placeName.dataset.lng;
+      vm.finalLatLng.lat=vm.selectedPlaceName.geometry.location.lat;
+      vm.finalLatLng.lng=vm.selectedPlaceName.geometry.location.lng;
       vm.finalLatLng.name=vm.selectedPlaceName.name;
 
-
-
       google.maps.event.trigger(map, "resize");
-
       vm.selectedPlaceName.infowindow = new google.maps.InfoWindow({
         content: vm.selectedPlaceName.name
       });
@@ -206,7 +197,7 @@
         vm.selectedPlaceName.marker.setMap(null);
       }
       vm.selectedPlaceName.marker = new google.maps.Marker({
-                                      position: new google.maps.LatLng(vm.selectedPlaceName.lat, vm.selectedPlaceName.lng),
+                                      position: new google.maps.LatLng(vm.finalLatLng.lat, vm.finalLatLng.lng),
                                       title: vm.selectedPlaceName.name
                                     });
       vm.selectedPlaceName.marker.setMap(vm.map);
@@ -217,6 +208,7 @@
     };
     vm.igShowDone=false;
     vm.confirm=function () {
+      vm.selectedPlaceName.marker.setMap(null);
       var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
       var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
