@@ -141,6 +141,10 @@ html, body {
     margin: 20px 0;
     width: 100%; }
 
+.ng_show .title {
+  padding-left: 15px;
+  padding-right: 15px; }
+
 .ng_show .text-center {
   position: relative;
   text-align: center; }

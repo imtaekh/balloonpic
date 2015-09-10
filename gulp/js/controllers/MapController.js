@@ -163,7 +163,7 @@
                                     });
       vm.finalDestination.marker.setMap(vm.map);
       vm.finalDestination.infowindow.open(vm.map, vm.finalDestination.marker);
-    }
+    };
     vm.selectedAddress = {};
     vm.selectAddress = function () {
 
@@ -187,7 +187,7 @@
           vm.selectedAddress.formatted_address = add;
         }
       });
-      vm.selectedAddress.formatted_address = vm.selectedAddress.formatted_address.split(",").map(function(el){return el.trim()}).filter(function(el){ return el!="";}).join(", ");
+      vm.selectedAddress.formatted_address = vm.selectedAddress.formatted_address.split(",").map(function(el){return el.trim();}).filter(function(el){ return el!=="";}).join(", ");
       vm.finalDestination.name = vm.selectedAddress.formatted_address;
       /////////////////
       google.maps.event.trigger(map, "resize");
