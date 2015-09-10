@@ -243,7 +243,7 @@
                                   null, /* size is determined at runtime */
                                   null, /* origin is 0,0 */
                                   null, /* anchor is bottom center of the scaled image */
-                                  new google.maps.Size(30, 30)
+                                  new google.maps.Size(50, 50)
                                 )
                       });
       markerObj.marker.setMap(vm.map);
@@ -273,7 +273,7 @@
       vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
       vm.map.mapTypes.set('map_style', customMapType);
       vm.map.setMapTypeId('map_style');
-      vm.oms = new OverlappingMarkerSpiderfier(vm.map,{circleSpiralSwitchover: 1000});
+      vm.oms = new OverlappingMarkerSpiderfier(vm.map, {circleFootSeparation: 46, spiralFootSeparation: 52});
 
       vm.markers.forEach(function (marker) {
         vm.generateMarker(marker);
@@ -281,31 +281,26 @@
 
 
 
-      setInterval( function(){
-        vm.markers.forEach(function (marker) {
-          var change = false;
-
-          if(marker.latVel>0 && marker.endLat>marker.lat){
-            marker.lat += marker.latVel;
-            change = true;
-          } else if(marker.latVel<0 && marker.endLat<marker.lat){
-            marker.lat += marker.latVel;
-            change = true;
-          }
-
-
-          if(marker.lngVel>0 && marker.endLng>marker.lng){
-            marker.lng += marker.lngVel;
-            change = true;
-          } else if(marker.lngVel<0 && marker.endLng<marker.lng){
-            marker.lng += marker.lngVel;
-            change = true;
-          }
-
-          if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
-
-        });
-      }, 100 );
+      // setInterval( function(){
+      //   vm.markers.forEach(function (marker) {
+      //     var change = false;
+      //     if(marker.latVel>0 && marker.endLat>marker.lat){
+      //       marker.lat += marker.latVel;
+      //       change = true;
+      //     } else if(marker.latVel<0 && marker.endLat<marker.lat){
+      //       marker.lat += marker.latVel;
+      //       change = true;
+      //     }
+      //     if(marker.lngVel>0 && marker.endLng>marker.lng){
+      //       marker.lng += marker.lngVel;
+      //       change = true;
+      //     } else if(marker.lngVel<0 && marker.endLng<marker.lng){
+      //       marker.lng += marker.lngVel;
+      //       change = true;
+      //     }
+      //     if(change) marker.marker.setPosition( new google.maps.LatLng(marker.lat, marker.lng) );
+      //   });
+      // }, 100 );
 
     };
 
