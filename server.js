@@ -2,6 +2,8 @@ var appConfig = require('./config/app_config');
 
 var express     = require('express');
 var app         = express();
+var http        = require('http').Server(app);
+var io          = require('socket.io')(http);
 var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
 var logger      = require('morgan');
@@ -58,9 +60,16 @@ app.get('*', function (req, res) {
 
 //server start
 
-app.listen(appConfig.port,function () {
+http.listen(appConfig.port,function () {
   console.log("http://127.0.0.1:"+appConfig.port+"/");
 });
+
+//socket.Io
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
 
 // functions
 
