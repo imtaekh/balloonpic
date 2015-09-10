@@ -76,6 +76,7 @@ html, body{
   right:0;
   transition: left, 1s;
 }
+
 .side_inactive{
   position: absolute;
   left:0;
@@ -92,7 +93,17 @@ html, body{
   overflow-y: scroll;
   transition: width, 1s;
 }
-
+.btn-close {
+  line-height: 10px;
+  position: absolute;
+  left: 295px;
+  top: 5px;
+  padding: 3px;
+  border: 1px solid;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
 .ng_new{
   .container-fluid{
     overflow: auto;

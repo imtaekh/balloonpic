@@ -98,18 +98,16 @@
     };
     vm.startOver = function () {
       vm.unSelectPic();
-      vm.finalLatLng={};
       vm.locationAddress = "";
       vm.locationAddressSearchResults = "";
       vm.selectedAddress = {};
       vm.placeName = "";
       vm.placeNameSearchResults= "";
       vm.selectedPlaceName = {};
-
-
-      if(vm.selectedPlaceName.marker){
-        vm.selectedPlaceName.marker.setMap(null);
+      if(vm.finalLatLng.marker){
+        vm.finalLatLng.marker.setMap(null);
       }
+      vm.finalLatLng={};
       vm.igShowDone=false;
     };
     vm.igNewPic = undefined;
@@ -129,8 +127,6 @@
     };
 
     vm.finalLatLng={};
-
-
     vm.locationAddress = "";
     vm.locationAddressSearchResults = "";
     vm.findByAddress = function () {
@@ -155,6 +151,7 @@
     vm.selectAddress = function () {
       vm.finalLatLng.lat=vm.selectedAddress.geometry.location.lat;
       vm.finalLatLng.lng=vm.selectedAddress.geometry.location.lng;
+
 
       google.maps.event.trigger(map, "resize");
       vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
@@ -193,22 +190,23 @@
       vm.selectedPlaceName.infowindow = new google.maps.InfoWindow({
         content: vm.selectedPlaceName.name
       });
-      if(vm.selectedPlaceName.marker){
-        vm.selectedPlaceName.marker.setMap(null);
+      if(vm.finalLatLng.marker){
+        vm.finalLatLng.marker.setMap(null);
+        console.log("???");
       }
-      vm.selectedPlaceName.marker = new google.maps.Marker({
+      vm.finalLatLng.marker = new google.maps.Marker({
                                       position: new google.maps.LatLng(vm.finalLatLng.lat, vm.finalLatLng.lng),
                                       title: vm.selectedPlaceName.name
                                     });
-      vm.selectedPlaceName.marker.setMap(vm.map);
-      vm.selectedPlaceName.infowindow.open(vm.map, vm.selectedPlaceName.marker);
+      vm.finalLatLng.marker.setMap(vm.map);
+      vm.selectedPlaceName.infowindow.open(vm.map, vm.finalLatLng.marker);
       vm.map.setCenter(new google.maps.LatLng(vm.finalLatLng.lat,vm.finalLatLng.lng));
       vm.map.setZoom(16);
 
     };
     vm.igShowDone=false;
     vm.confirm=function () {
-      vm.selectedPlaceName.marker.setMap(null);
+      vm.finalLatLng.marker.setMap(null);
       var latDif = vm.finalLatLng.lat-vm.centerLatLng.lat;
       var lngDif = vm.finalLatLng.lng-vm.centerLatLng.lng;
       var rad = (lngDif >= 0)?Math.atan(latDif/lngDif):Math.PI+Math.atan(latDif/lngDif);
