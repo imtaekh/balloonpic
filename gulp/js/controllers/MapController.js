@@ -59,6 +59,38 @@
       return result;
     };
 
+    vm.unMarkBalloon = function (id) {
+      // console.dir(id);
+      // console.dir(vm.balloons);
+      vm.balloons.forEach(function (balloon) {
+        if(balloon._id===id){
+          console.log(balloon);
+          balloon.marker.setMap(null);
+
+        }
+      });
+    };
+    vm.deleteBalloon = function () {
+      vm.socket.emit("popBalloon",vm.igPic.balloon.data._id);
+
+      // var confirm = $window.confirm("Are you sure you want to pop this balloon? It will be deleted..");
+      //   if (confirm === true){
+      //     $http.delete("api/balloons/"+vm.igPic.balloon.data._id
+      //       ).success(function (data) {
+      //       if(data.success){
+      //         console.log("it's gone");
+      //       } else {
+      //         alert("Something went Wrong, please login again..");
+      //         Auth.logout();
+      //       }
+      //     }).error(function (error) {
+      //       alert("Something went Wrong, please login again..", error);
+      //       Auth.logout();
+      //     });
+      //   } else{
+      //     console.log("no");
+      //   }
+    };
     vm.igShowIsRunning=false;
     vm.igShowDetailToggle=function () {
       if(vm.igPic.detailClass=="detail_inactive"){
@@ -73,7 +105,7 @@
       if(vm.igShowIsRunning) return;
       vm.igShowIsRunning=true;
       vm.igPic.balloon=marker;
-
+      vm.userId=$window.localStorage.getItem('id');
       var now = Date.now();
       vm.igPic.created_at=vm.formatDate(new Date(vm.igPic.balloon.data.created_at));
       vm.igPic.arrived_at=vm.formatDate(new Date(vm.igPic.balloon.data.arrived_at));
@@ -359,7 +391,10 @@
       vm.balloons.push(balloon);
       vm.generateMarker(vm.balloons[vm.balloons.length-1]);
     });
-
+    vm.socket.on('popBalloon', function (id) {
+      vm.unMarkBalloon(id);
+    });
+    
     vm.generateMarker=function (balloon,now) {
       if(now < balloon.arrived_at){
         balloon.curLat = balloon.lat + (balloon.endLat - balloon.lat) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);

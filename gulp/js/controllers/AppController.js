@@ -13,6 +13,7 @@
       .then(function (data) {
         if(data.data.success){
           vm.user = data.data.data;
+          $window.localStorage.setItem('id', vm.user.id);
         }
         else{
           delete vm.user;
@@ -31,6 +32,7 @@
       console.log("logout");
       Auth.logout();
       delete vm.user;
+      $window.localStorage.removeItem('id');
     };
     vm.menuStyle = "collapse navbar-collapse";
     vm.menuClick = function () {

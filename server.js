@@ -74,6 +74,9 @@ io.on('connection', function(socket){
   socket.on('newBalloon', function(balloon){
     io.emit('newBalloon', balloon);
   });
+  socket.on('popBalloon', function(id){
+    io.emit('popBalloon', id);
+  });
 });
 
 
