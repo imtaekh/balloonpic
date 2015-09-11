@@ -416,6 +416,7 @@
       var mapOptions = {
                     zoom: zoom,
                     center: new google.maps.LatLng(lat,lng),
+                    disableDefaultUI: true,
                     mapTypeControlOptions: {
                      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
                    }
