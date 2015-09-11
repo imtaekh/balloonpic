@@ -309,7 +309,7 @@
       var latVel=Math.sin(rad);
       var lngVel=Math.cos(rad);
       var created_at=Date.now();
-      var arrived_at=parseInt(created_at+Math.abs(latDif/latVel*100000*1000));
+      var arrived_at=parseInt(created_at+Math.abs(latDif/latVel*40000*1000));
 
       var Balloon = {
         name: vm.finalDestination.name,
