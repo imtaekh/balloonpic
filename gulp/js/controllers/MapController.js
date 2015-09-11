@@ -19,6 +19,9 @@
       setTimeout(function () {
         google.maps.event.trigger(map, "resize");
       },1000);
+      if(vm.finalDestination.marker){
+        vm.finalDestination.marker.setMap(null);
+      }
     };
 
     vm.formatDate=function (date) {

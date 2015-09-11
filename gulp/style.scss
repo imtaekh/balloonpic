@@ -221,40 +221,41 @@ html, body{
       padding-bottom: 5px;
     }
   }
-  @media screen and (max-width: 500px) {
-    .main_app{
-      position: absolute;
-      width: 100%;
-      top:0;
-      bottom:0;
-    }
-    .btn-close {
-      right: 10px;
-      left:auto;
-    }
-    .map_left_tmp{
-      width:100%;
-    }
-    .map_inactive{
-      position: relative;
-      left:auto;
-      height: 500px;
-      width: 100%;
-    }
-    .map_active{
-      position: relative;
-      left:auto;
-      height: 500px;
-      width: 100%;
-    }
-    .side_inactive{
-      height:0;
-      overflow: hidden;
-      position: relative;
-      width: 100%;
-    }
-    .side_active{
-      position: relative;
-      width: 100%;
-    }
-  }
+  // @media screen and (max-width: 500px) {
+  //   .btn-close {
+  //     top: 60px;
+  //     right: 10px;
+  //     left:auto;
+  //   }
+  //   .map_left_tmp{
+  //     overflow: auto;
+  //     margin-top:50px;
+  //     width:100%;
+  //   }
+  //   .map_inactive{
+  //     top:0;
+  //     position: relative;
+  //     left:auto;
+  //     height: 500px;
+  //     width: 100%;
+  //   }
+  //   .map_active{
+  //     top:0;
+  //     position: relative;
+  //     left:auto;
+  //     height: 500px;
+  //     width: 100%;
+  //   }
+  //   .side_inactive{
+  //     top:0;
+  //     height:0;
+  //     overflow: hidden;
+  //     position: relative;
+  //     width: 100%;
+  //   }
+  //   .side_active{
+  //     top:0;
+  //     position: relative;
+  //     width: 100%;
+  //   }
+  // }
