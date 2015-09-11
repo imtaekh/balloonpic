@@ -35,9 +35,16 @@ router.route('/balloons/:id')
     });
   })
   .delete(function (req, res) {
-    Balloon.findOneAndRemove({_id:req.params.id},function (err,balloon) {
+    Balloon.findOne({_id:req.params.id},function (err,balloon) {
       if(err) return res.json({success:false, message:err.message});
-      res.json({success:true, data:{id:req.params.id}});
+      if(balloon.owner==req.decoded.id){
+        Balloon.findOneAndRemove({_id:req.params.id},function (err,balloon) {
+          if(err) return res.json({success:false, message:err.message});
+          res.json({success:true, data:{id:req.params.id}});
+        });
+      } else{
+        res.json({success:false, message:"owner id not match"});
+      }
     });
   });
 

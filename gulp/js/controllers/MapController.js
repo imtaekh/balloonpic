@@ -114,6 +114,7 @@
       } else {
         vm.igPic.deletable=false;
       }
+      console.log(vm.igPic.deletable);
 
       var now = Date.now();
       vm.igPic.created_at=vm.formatDate(new Date(vm.igPic.balloon.data.created_at));
