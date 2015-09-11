@@ -66,7 +66,6 @@
         if(balloon._id===id){
           console.log(balloon);
           balloon.marker.setMap(null);
-
         }
       });
     };
@@ -80,6 +79,7 @@
             ).success(function (data) {
             if(data.success){
               vm.socket.emit("popBalloon",vm.igPic.balloon.data._id);
+              vm.igNew();
             } else {
               alert("Something went Wrong, please login again..");
               Auth.logout();
@@ -524,6 +524,7 @@
     );
 
     vm.myLocation = function () {
+      google.maps.event.trigger(map, "resize");
       window.navigator.geolocation.getCurrentPosition(
         function (position) {
           vm.centerLatLng.lat = position.coords.latitude;
