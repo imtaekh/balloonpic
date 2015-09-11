@@ -40,6 +40,7 @@ html, body {
   width: 320px; }
 
 .submenuDiv {
+  width: 100%;
   position: absolute;
   left: 50%;
   -moz-transform: translate(-50%, 0);
@@ -119,7 +120,7 @@ html, body {
   .ng_new .steps {
     margin: 10px 0; }
   .ng_new .step1 {
-    height: 300px; }
+    min-height: 300px; }
   .ng_new .row {
     margin-left: -5px;
     margin-right: -5px; }
@@ -194,3 +195,41 @@ html, body {
     margin: 10px;
     padding-top: 5px;
     padding-bottom: 5px; }
+@media screen and (max-width: 500px) {
+  .btn-close {
+    top: 60px;
+    right: 10px;
+    left:auto;
+  }
+  .map_left_tmp{
+    overflow: auto;
+    margin-top:50px;
+    width:100%;
+  }
+  .map_inactive{
+    top:0;
+    position: relative;
+    left:auto;
+    height: 500px;
+    width: 100%;
+  }
+  .map_active{
+    top:0;
+    position: relative;
+    left:auto;
+    height: 500px;
+    width: 100%;
+  }
+  .side_inactive{
+    top:0;
+    height:0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .side_active{
+    top:0;
+    position: relative;
+    width: 100%;
+  }
+}

@@ -1,3 +1,5 @@
+$break-small: 600px;
+
 html, body{
   position: relative;
   height: 100%;
@@ -41,6 +43,7 @@ html, body{
   width:320px;
 }
 .submenuDiv{
+  width: 100%;
   position: absolute;
   left:50%;
   -moz-transform: translate(-50%, 0);
@@ -129,7 +132,7 @@ html, body{
     margin: 10px 0;
   }
   .step1{
-    height:300px;
+    min-height:300px;
   }
   .row{
     margin-left: -5px;
@@ -218,4 +221,40 @@ html, body{
       padding-bottom: 5px;
     }
   }
-}
+  @media screen and (max-width: 500px) {
+    .main_app{
+      position: absolute;
+      width: 100%;
+      top:0;
+      bottom:0;
+    }
+    .btn-close {
+      right: 10px;
+      left:auto;
+    }
+    .map_left_tmp{
+      width:100%;
+    }
+    .map_inactive{
+      position: relative;
+      left:auto;
+      height: 500px;
+      width: 100%;
+    }
+    .map_active{
+      position: relative;
+      left:auto;
+      height: 500px;
+      width: 100%;
+    }
+    .side_inactive{
+      height:0;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    .side_active{
+      position: relative;
+      width: 100%;
+    }
+  }
