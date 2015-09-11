@@ -40,6 +40,7 @@ html, body {
   width: 320px; }
 
 .submenuDiv {
+  height: 0px;
   width: 100%;
   position: absolute;
   z-index: 1;
