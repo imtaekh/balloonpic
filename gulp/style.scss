@@ -42,17 +42,16 @@ html, body{
 .map_left_tmp{
   width:320px;
 }
+
+
 .submenuDiv{
   width: 100%;
   position: absolute;
-  left:50%;
-  -moz-transform: translate(-50%, 0);
-  -webkit-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
   z-index: 1;
   text-align: center;
-  height:20px;
+  .submenuDisplay{
+    display: inline-block;
+  }
   .submenu{
     cursor: pointer;
     display: inline-block;
@@ -221,41 +220,58 @@ html, body{
       padding-bottom: 5px;
     }
   }
-  // @media screen and (max-width: 500px) {
-  //   .btn-close {
-  //     top: 60px;
-  //     right: 10px;
-  //     left:auto;
-  //   }
-  //   .map_left_tmp{
-  //     overflow: auto;
-  //     margin-top:50px;
-  //     width:100%;
-  //   }
-  //   .map_inactive{
-  //     top:0;
-  //     position: relative;
-  //     left:auto;
-  //     height: 500px;
-  //     width: 100%;
-  //   }
-  //   .map_active{
-  //     top:0;
-  //     position: relative;
-  //     left:auto;
-  //     height: 500px;
-  //     width: 100%;
-  //   }
-  //   .side_inactive{
-  //     top:0;
-  //     height:0;
-  //     overflow: hidden;
-  //     position: relative;
-  //     width: 100%;
-  //   }
-  //   .side_active{
-  //     top:0;
-  //     position: relative;
-  //     width: 100%;
-  //   }
-  // }
+}
+@media screen and (max-width: 900px) {
+  .submenuDiv{
+    text-align: right;
+    .submenuDisplay{
+      display: block;
+      text-align: right;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .submenuDiv{
+    text-align: center;
+    .submenuDisplay{
+      display: inline-block;
+      text-align: center;
+    }
+  }
+  .btn-close {
+    top: 60px;
+    right: 10px;
+    left:auto;
+  }
+  .map_left_tmp{
+    overflow: auto;
+    margin-top:50px;
+    width:100%;
+  }
+  .map_inactive{
+    top:0;
+    position: relative;
+    left:auto;
+    height: 500px;
+    width: 100%;
+  }
+  .map_active{
+    top:0;
+    position: relative;
+    left:auto;
+    height: 500px;
+    width: 100%;
+  }
+  .side_inactive{
+    top:0;
+    height:0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .side_active{
+    top:0;
+    position: relative;
+    width: 100%;
+  }
+}
