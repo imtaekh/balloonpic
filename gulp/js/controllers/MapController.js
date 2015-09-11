@@ -10,6 +10,8 @@
     vm.leftPanel="";
     vm.myIgPics =[];
     vm.igPic ={};
+    vm.socket = io();
+    console.log(vm.socket);
     vm.closeLeftPanel=function () {
       vm.leftPanel="";
       document.querySelector('#map').className="map_inactive";
@@ -326,12 +328,17 @@
       $http.post("api/balloons",Balloon)
       .success(function (data) {
         if(data.success){
-          vm.balloons.push(data.data);
-          vm.generateMarker(vm.balloons[vm.balloons.length-1]);
+          console.log("sending balloon", data.data);
+          vm.socket.emit('newBalloon', data.data);
+          // vm.balloons.push(data.data);
+          // vm.generateMarker(vm.balloons[vm.balloons.length-1]);
 
           vm.map.setCenter(new google.maps.LatLng(data.data.lat,data.data.lng));
           vm.map.setZoom(12);
           vm.igShowDone=true;
+
+
+
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -341,6 +348,13 @@
         Auth.logout();
       });
     };
+    vm.socket.on('newBalloon', function (balloon) {
+      vm.balloons.push(balloon);
+      vm.generateMarker(vm.balloons[vm.balloons.length-1]);
+      console.log("get balloon from socket io");
+    });
+
+
 
     vm.generateMarker=function (balloon,now) {
       if(now < balloon.arrived_at){
