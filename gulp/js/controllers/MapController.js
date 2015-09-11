@@ -11,6 +11,7 @@
     vm.myIgPics =[];
     vm.igPic ={};
     vm.socket = io();
+
     vm.closeLeftPanel=function () {
       vm.leftPanel="";
       document.querySelector('#map').className="map_inactive";
@@ -20,7 +21,6 @@
       },1000);
     };
 
-
     vm.formatDate=function (date) {
       var month =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
       return ((date.getHours().toString().length==1)?("0"+date.getHours()):(date.getHours()))+":"+
@@ -29,6 +29,7 @@
                 ((date.getDate().toString().length==1)?("0"+date.getDate()):(date.getDate()))+", "+
                 date.getFullYear();
     };
+
     vm.formatDuration=function (milisec) {
       var seconds = parseInt(milisec/1000);
 
@@ -71,7 +72,6 @@
       vm.igPic.balloon=marker;
 
       var now = Date.now();
-
       vm.igPic.created_at=vm.formatDate(new Date(vm.igPic.balloon.data.created_at));
       vm.igPic.arrived_at=vm.formatDate(new Date(vm.igPic.balloon.data.arrived_at));
       if(marker.data.arrived_at > now){
@@ -85,13 +85,6 @@
       }
       vm.igPic.detailClass="detail_inactive";
       vm.igPic.detailBtnClass="btn btn-default btn-detail";
-
-
-
-
-
-
-
 
       $http.get("api/show_ig",{
         params:{
@@ -114,7 +107,6 @@
             document.querySelector('#side').className="side_active";
           }
           vm.igShowIsRunning=false;
-
         } else {
           alert("Something went Wrong, please login again..");
           Auth.logout();
@@ -124,6 +116,7 @@
         Auth.logout();
       });
     };
+
     vm.igIndex = function () {
       $http.get("api/my_ig").success(function (data) {
         if(data.success){
@@ -138,6 +131,7 @@
         Auth.logout();
       });
     };
+
     vm.igNew = function(){
       if(vm.leftPanel=="igNew"){
         vm.closeLeftPanel();
@@ -157,6 +151,7 @@
         vm.startOver();
       }
     };
+
     vm.unSelectPic = function () {
       vm.igNewPic = undefined;
       var hiddenPics = document.querySelectorAll(".my_ig_pic_con_hidden");
@@ -166,6 +161,7 @@
       var selected=document.querySelector(".my_ig_pic_con_selected");
       if(selected) selected.className="col-xs-4 my_ig_pic_con";
     };
+
     vm.startOver = function () {
       vm.unSelectPic();
       vm.locationAddress = "";
@@ -180,6 +176,7 @@
       vm.finalDestination={};
       vm.igShowDone=false;
     };
+
     vm.igNewPic = undefined;
     vm.selectPic = function (id) {
       if (vm.igNewPic) {
@@ -217,6 +214,7 @@
         Auth.logout();
       });
     };
+
     vm.generateDestinationMarker = function (title,address) {
       var content="<h4>"+title+"</h4>";
       if(address){
@@ -235,12 +233,11 @@
       vm.finalDestination.marker.setMap(vm.map);
       vm.finalDestination.infowindow.open(vm.map, vm.finalDestination.marker);
     };
+
     vm.selectedAddress = {};
     vm.selectAddress = function () {
-
       vm.finalDestination.lat=vm.selectedAddress.geometry.location.lat;
       vm.finalDestination.lng=vm.selectedAddress.geometry.location.lng;
-
       vm.generateDestinationMarker(vm.selectedAddress.formatted_address);
 
       //address triming//
@@ -261,6 +258,7 @@
       vm.selectedAddress.formatted_address = vm.selectedAddress.formatted_address.split(",").map(function(el){return el.trim();}).filter(function(el){ return el!=="";}).join(", ");
       vm.finalDestination.name = vm.selectedAddress.formatted_address;
       /////////////////
+
       google.maps.event.trigger(map, "resize");
       vm.map.setCenter(new google.maps.LatLng(vm.finalDestination.lat,vm.finalDestination.lng));
       vm.map.setZoom(14);
@@ -301,6 +299,7 @@
         vm.map.setZoom(16);
       }
     };
+
     vm.igShowDone=false;
     vm.confirm=function () {
       vm.finalDestination.marker.setMap(null);
@@ -352,6 +351,7 @@
         }
       );
     };
+
     vm.socket.on('newBalloon', function (balloon) {
       vm.balloons.push(balloon);
       vm.generateMarker(vm.balloons[vm.balloons.length-1]);
@@ -430,8 +430,6 @@
         vm.generateMarker(balloon, now);
       });
 
-
-
       vm.updateBalloons = setInterval( function(){
         var now = Date.now();
 
@@ -441,11 +439,8 @@
           document.querySelector("#liveTravelingTime").innerText=vm.igPic.travelTime;
         }
 
-
         vm.balloons.forEach(function (balloon) {
-
           if(!balloon.stop && now < balloon.arrived_at){
-
             balloon.curLat = balloon.lat + (balloon.endLat - balloon.lat) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
             balloon.curLng = balloon.lng + (balloon.endLng - balloon.lng) * (now - balloon.created_at)/(balloon.arrived_at - balloon.created_at);
             balloon.marker.setPosition( new google.maps.LatLng(balloon.curLat, balloon.curLng) );
@@ -472,12 +467,10 @@
 
     window.navigator.geolocation.getCurrentPosition(
       function (position) {
-        console.log(position);
         vm.centerLatLng.lat = position.coords.latitude;
         vm.centerLatLng.lng = position.coords.longitude;
         mapInit(vm.centerLatLng.lat,vm.centerLatLng.lng,12);
       },function (err) {
-        console.log(err);
       }
     );
 
@@ -486,10 +479,8 @@
         function (position) {
           vm.centerLatLng.lat = position.coords.latitude;
           vm.centerLatLng.lng = position.coords.longitude;
-
           vm.map.setCenter(new google.maps.LatLng(vm.centerLatLng.lat,vm.centerLatLng.lng));
           vm.map.setZoom(12);
-
         },function (err) {
         }
       );
